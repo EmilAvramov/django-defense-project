@@ -1,6 +1,24 @@
+# Python
 *.pyc
+*~
 __pycache__
-db.sqlite3
-/env
-*.env
-.vscode
+
+# Env
+.env
+myvenv/
+venv/
+
+# Windows
+Thumbs.db*
+ehthumbs*.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Visual Studio
+.vscode/
+.history/
+*.code-workspace
+
+
+# Static folder
+/static/
