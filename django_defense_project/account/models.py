@@ -3,8 +3,12 @@ from django.urls import reverse
 
 
 class User(models.Model):
-    email = models.EmailField("Email", max_length=64, unique=True, db_index=True)
-    username = models.CharField("Username", max_length=64, unique=True, db_index=True)
+    email = models.EmailField(
+        "Email", max_length=64, unique=True, db_index=True
+    )
+    username = models.CharField(
+        "Username", max_length=64, unique=True, db_index=True
+    )
     password = models.CharField("Password", max_length=64)
     first_name = models.CharField("First Name", max_length=64)
     last_name = models.CharField("Last Name", max_length=64)
@@ -25,23 +29,3 @@ class User(models.Model):
                 "username": self.username,
             },
         )
-
-class Guest(models.Model):
-    username = models.CharField("Username", max_length=64, unique=True, db_index=True)
-
-    class Meta:
-        verbose_name = "Guest User"
-        verbose_name_plural = "Guest Users"
-
-    def __str__(self):
-        return f"${self.username}"
-
-    def get_absolute_url(self):
-        return reverse(
-            "guest_detail", 
-            kwargs={
-                "id": self.id, 
-                "username": self.username
-            }
-        )
-    

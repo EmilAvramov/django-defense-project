@@ -1,7 +1,28 @@
 {% block content %}
 
 <header>
-    <div>Hi I'm the header</div>
+    <nav class="navbar navbar-expand-sm bg-light">
+
+        <ul>
+          <li>
+            <a href="{% url 'home' %}">Home</a>
+          </li>
+          <li>
+            <a href="{% url 'login' %}">Login</a>
+          </li>
+          <li>
+            <a href="{% url 'register' %}">Register</a>
+          </li>
+          <li>
+            <a href="{% url 'profile' %}">Profile</a>
+          </li>
+          <li>
+            <a href="{% url 'about' %}">About</a>
+          </li>
+        </ul>
+      
+      </nav>
+      
 </header>
 
 {% endblock %}
