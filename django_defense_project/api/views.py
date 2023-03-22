@@ -11,14 +11,22 @@ API_SKILL_LIST = "https://digi-api.com/api/v1/skill"
 
 
 def get_digimon_list(request):
-    is_cached = ('digimon_list' in request.session)
-    
+    is_cached = "data" in request.session
+    params = {"pageSize": 30}
+
     if not is_cached:
-        response = requests.get(API_DIGIMON_LIST)
-        request.session['digimon_list'] = response.json()
+        response = requests.get(API_DIGIMON_LIST, params=params)
+        request.session["data"] = response.json()
 
-    digimon_list = request.session['digimon_list']
+    digimon_list = request.session["data"]
 
-    return render(request, 'main/pages/home', {
-        'digimon_data': digimon_list
-    })
+    # print(request.session["digimon_list"])
+
+    # if not digimon_list:
+    #     digimon_list = requests.get(API_DIGIMON_LIST, params=params).json()
+
+    return render(
+        request,
+        "main/pages/home.html",
+        {"data": digimon_list["content"], "is_cached": is_cached},
+    )

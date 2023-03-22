@@ -1,4 +1,10 @@
 {% extends "../base.html" %}
 {% block content %}
-    <div>home template</div>
+    {% for digimon in  data%}
+        <div>{{ digimon.id}}</div>
+        <div>{{digimon.name}}</div>
+        <img src={{digimon.image}} alt="" />
+    {% endfor %}
+    Cached: {{ is_cached|yesno:"yes,no" }}
+    {{pages}}
 {% endblock %}
