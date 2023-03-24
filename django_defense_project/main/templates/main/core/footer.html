@@ -1,7 +1,14 @@
+{% load static %}
+{% load compress %}
+
+{% compress css %}
+<link type="text/x-scss" href="{% static 'main/components/footer.scss' %}" rel="stylesheet">
+{% endcompress %}
+
 {% block content %}
 
 <footer>
-    <div>Hi I'm the footer</div>
+    <div>Your Dear Footer, All Rights Reserved 2023</div>
 </footer>
 
 {% endblock %}

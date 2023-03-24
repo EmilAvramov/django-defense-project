@@ -22,7 +22,7 @@ class ApiSearch(TemplateView):
         if data:
             return render(
                 request,
-                "main/pages/home.html",
+                "main/pages/search.html",
                 {"data": data.json(), "form": self.form},
             )
         else:

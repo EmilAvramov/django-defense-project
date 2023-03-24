@@ -12,22 +12,22 @@
 
         <ul class="navbar_list">
           <li class="navbar_item">
-            <a class="navbar_link" href="{% url 'home' %}">Home</a>
+            <a class="navbar_link" href="{% url 'main_app:home' %}">Home</a>
           </li>
           <li>
             <a class="navbar_link" href="{% url 'api_app:search/digimon' %}">Digimon Search</a>
           </li>
           <li>
-            <a class="navbar_link" href="{% url 'login' %}">Login</a>
+            <a class="navbar_link" href="{% url 'acc_app:login' %}">Login</a>
           </li>
           <li>
-            <a class="navbar_link" href="{% url 'register' %}">Register</a>
+            <a class="navbar_link" href="{% url 'acc_app:register' %}">Register</a>
           </li>
           <li>
-            <a class="navbar_link" href="{% url 'profile' %}">Profile</a>
+            <a class="navbar_link" href="{% url 'acc_app:profile' %}">Profile</a>
           </li>
           <li>
-            <a class="navbar_link" href="{% url 'about' %}">About</a>
+            <a class="navbar_link" href="{% url 'main_app:about' %}">About</a>
           </li>
         </ul>
       
