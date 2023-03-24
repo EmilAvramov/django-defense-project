@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
+from .views import DigimonSearch
 
+app_name = "api_app"
 urlpatterns = [
-    path("digimon", views.get_digimon_list, name="digimon"),
+    path("search/digimon", DigimonSearch.as_view(), name="search/digimon"),
 ]

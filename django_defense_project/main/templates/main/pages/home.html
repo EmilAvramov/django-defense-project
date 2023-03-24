@@ -1,10 +1,19 @@
 {% extends "../base.html" %}
 {% block content %}
+    <form action="{% url 'api_app:search/digimon' %}" method="GET">
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+
     {% for digimon in  data%}
         <div>{{ digimon.id}}</div>
         <div>{{digimon.name}}</div>
-        <img src={{digimon.image}} alt="" />
+        {% for image in  data.images%}
+            <img src={{image.href}} alt="" />
+        {% endfor %}
+        
+
     {% endfor %}
     Cached: {{ is_cached|yesno:"yes,no" }}
-    {{pages}}
+
 {% endblock %}

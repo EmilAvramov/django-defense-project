@@ -1,32 +1,22 @@
 from django.shortcuts import render
-import requests
-
-# API endpoints
-API_DIGIMON_LIST = "https://digi-api.com/api/v1/digimon"
-API_ATTRIBUTE_LIST = "https://digi-api.com/api/v1/attribute"
-API_FIELD_LIST = "https://digi-api.com/api/v1/field"
-API_LEVEL_LIST = "https://digi-api.com/api/v1/level"
-API_TYPE_LIST = "https://digi-api.com/api/v1/type"
-API_SKILL_LIST = "https://digi-api.com/api/v1/skill"
+from . import forms
+from django.views.generic.base import TemplateView
+from .util import api
 
 
-def get_digimon_list(request):
-    is_cached = "data" in request.session
-    params = {"pageSize": 30}
+class DigimonSearch(TemplateView):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.template_name = "main/pages/home.html"
+        self.form = forms.SearchForm()
+        self.data = []
+        self.params = {"pageSize": 10}
 
-    if not is_cached:
-        response = requests.get(API_DIGIMON_LIST, params=params)
-        request.session["data"] = response.json()
+    def get(self, request):
+        query = request.GET.get("query", None)
+        self.data = api.call("digimon", self.params, query).json()
+        print(self.data)
 
-    digimon_list = request.session["data"]
-
-    # print(request.session["digimon_list"])
-
-    # if not digimon_list:
-    #     digimon_list = requests.get(API_DIGIMON_LIST, params=params).json()
-
-    return render(
-        request,
-        "main/pages/home.html",
-        {"data": digimon_list["content"], "is_cached": is_cached},
-    )
+        return render(
+            request, self.template_name, {"data": self.data, "form": self.form}
+        )
