@@ -1,23 +1,33 @@
+{% load static %}
+{% load compress %}
+
+{% compress css %}
+<link type="text/x-scss" href="{% static 'main/components/header.scss' %}" rel="stylesheet">
+{% endcompress %}
+
 {% block content %}
 
 <header>
-    <nav class="navbar navbar-expand-sm bg-light">
+    <nav class="navbar">
 
-        <ul>
-          <li>
-            <a href="{% url 'home' %}">Home</a>
+        <ul class="navbar_list">
+          <li class="navbar_item">
+            <a class="navbar_link" href="{% url 'home' %}">Home</a>
           </li>
           <li>
-            <a href="{% url 'login' %}">Login</a>
+            <a class="navbar_link" href="{% url 'api_app:search/digimon' %}">Digimon Search</a>
           </li>
           <li>
-            <a href="{% url 'register' %}">Register</a>
+            <a class="navbar_link" href="{% url 'login' %}">Login</a>
           </li>
           <li>
-            <a href="{% url 'profile' %}">Profile</a>
+            <a class="navbar_link" href="{% url 'register' %}">Register</a>
           </li>
           <li>
-            <a href="{% url 'about' %}">About</a>
+            <a class="navbar_link" href="{% url 'profile' %}">Profile</a>
+          </li>
+          <li>
+            <a class="navbar_link" href="{% url 'about' %}">About</a>
           </li>
         </ul>
       

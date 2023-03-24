@@ -109,8 +109,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
+STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "/static/")
 
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
