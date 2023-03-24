@@ -1,10 +1,17 @@
+{% load static %}
+{% load compress %}
+
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Django App</title>
+
+    {% compress css %}
+      <link type="text/x-scss" href="{% static 'main/reset.scss' %}" rel="stylesheet">
+    {% endcompress %}
+
   </head>
   <body>
     {% include "./core/header.html" %}

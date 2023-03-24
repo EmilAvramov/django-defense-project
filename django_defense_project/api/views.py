@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from . import forms
 from django.views.generic.base import TemplateView
-from django.http import HttpResponseForbidden, HttpResponseBadRequest
+from django.http import HttpResponseForbidden
 from .util import api
 
 
@@ -29,4 +29,13 @@ class ApiSearch(TemplateView):
             return render(request, "main/core/error.html", {"error": error})
 
     def post(self, request):
+        return HttpResponseForbidden()
+
+    def patch(self, request):
+        return HttpResponseForbidden()
+
+    def put(self, request):
+        return HttpResponseForbidden()
+
+    def delete(self, request):
         return HttpResponseForbidden()
