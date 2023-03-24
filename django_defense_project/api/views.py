@@ -1,22 +1,32 @@
 from django.shortcuts import render
 from . import forms
 from django.views.generic.base import TemplateView
+from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from .util import api
 
 
-class DigimonSearch(TemplateView):
+class ApiSearch(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.template_name = "main/pages/home.html"
         self.form = forms.SearchForm()
-        self.data = []
         self.params = {"pageSize": 10}
 
     def get(self, request):
         query = request.GET.get("query", None)
-        self.data = api.call("digimon", self.params, query).json()
-        print(self.data)
+        data_type = request.path.split("/")[2]
 
-        return render(
-            request, self.template_name, {"data": self.data, "form": self.form}
-        )
+        response = api.call(data_type, self.params, query)
+        data = response.get("data")
+        error = response.get("error")
+
+        if data:
+            return render(
+                request,
+                "main/pages/home.html",
+                {"data": data.json(), "form": self.form},
+            )
+        else:
+            return render(request, "main/core/error.html", {"error": error})
+
+    def post(self, request):
+        return HttpResponseForbidden()
