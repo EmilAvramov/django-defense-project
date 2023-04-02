@@ -1,19 +1,10 @@
 from requests import get
+from .config import endpoints, templates
 
 
-def call(data_type, params, query):
+def call(data_type, params={}, query=""):
     error = False
     headers = {}
-    if params is not None:
-        params = {}
-    endpoints = {
-        "digimon": "https://digi-api.com/api/v1/digimon",
-        "attribute": "https://digi-api.com/api/v1/attribute",
-        "field": "https://digi-api.com/api/v1/field",
-        "level": "https://digi-api.com/api/v1/level",
-        "type": "https://digi-api.com/api/v1/type",
-        "skill": "https://digi-api.com/api/v1/skill",
-    }
 
     try:
         if query:
@@ -24,6 +15,6 @@ def call(data_type, params, query):
         data = get(url, headers=headers, params=params)
     except Exception:
         error = True
-        return {"data": None, "error": error}
+        return {"data": None, "error": error, "template": templates["error"]}
 
-    return {"data": data, "error": error}
+    return {"data": data, "error": error, "template": templates[data_type]}

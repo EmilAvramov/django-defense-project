@@ -1,7 +1,7 @@
 {% extends "../pages/search.html" %}
 
-{% block content %}
-    <form action="{% url 'api_app:search/attributes' %}" method="GET">
+{% block child %}
+    <form action="{% url 'api_app:search/attribute' %}" method="GET">
         {{ form }}
         <input type="submit" value="Submit">
     </form>

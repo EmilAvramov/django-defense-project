@@ -19,15 +19,16 @@ class ApiSearch(TemplateView):
         response = api.call(data_type, self.params, query)
         data = response.get("data")
         error = response.get("error")
+        template = response.get("template")
 
         if data:
             return render(
                 request,
-                "main/pages/search.html",
+                template,
                 {"data": data.json(), "form": self.form},
             )
         else:
-            return render(request, "main/core/error.html", {"error": error})
+            return render(request, template, {"error": error})
 
     def post(self, request):
         return HttpResponseForbidden()
