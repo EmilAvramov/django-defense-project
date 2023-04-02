@@ -1,0 +1,20 @@
+{% extends "../pages/search.html" %}
+
+{% block content %}
+    <form action="{% url 'api_app:search/skill' %}" method="GET">
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+
+    {% for digimon in  data%}
+        <div>{{ digimon.id}}</div>
+        <div>{{digimon.name}}</div>
+        {% for image in  data.images%}
+            <img src={{image.href}} alt="" />
+        {% endfor %}
+        
+
+    {% endfor %}
+    Cached: {{ is_cached|yesno:"yes,no" }}
+
+{% endblock %}

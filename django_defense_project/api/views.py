@@ -14,6 +14,7 @@ class ApiSearch(TemplateView):
     def get(self, request):
         query = request.GET.get("query", None)
         data_type = request.path.split("/")[2]
+        print(data_type)
 
         response = api.call(data_type, self.params, query)
         data = response.get("data")

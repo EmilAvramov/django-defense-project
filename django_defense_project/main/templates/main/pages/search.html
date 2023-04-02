@@ -7,20 +7,32 @@
 {% endcompress %}
 
 {% block content %}
-    <form action="{% url 'api_app:search/digimon' %}" method="GET">
-        {{ form }}
-        <input type="submit" value="Submit">
-    </form>
-
-    {% for digimon in  data%}
-        <div>{{ digimon.id}}</div>
-        <div>{{digimon.name}}</div>
-        {% for image in  data.images%}
-            <img src={{image.href}} alt="" />
-        {% endfor %}
-        
-
-    {% endfor %}
-    Cached: {{ is_cached|yesno:"yes,no" }}
+    <div class="search__container">
+        <h2 class="search__heading">
+            Please select a search type below
+        </h2>
+        <section class="search__cards">
+            <div class="search__card">
+                <a href="{% url 'api_app:search/digimon' %}">
+                    Digimon
+                </a>
+                <a href="{% url 'api_app:search/attribute' %}">
+                    Attribute
+                </a>
+                <a href="{% url 'api_app:search/field' %}">
+                    Field
+                </a>
+                <a href="{% url 'api_app:search/level' %}">
+                    Level
+                </a>
+                <a href="{% url 'api_app:search/type' %}">
+                    Type
+                </a>
+                <a href="{% url 'api_app:search/skill' %}">
+                    Skill
+                </a>
+            </div>
+        </section>
+    </div>
 
 {% endblock %}
