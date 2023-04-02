@@ -1,10 +1,7 @@
 {% extends "../pages/search.html" %}
 
 {% block child %}
-    <form action="{% url 'api_app:search/attribute' %}" method="GET">
-        {{ form }}
-        <input type="submit" value="Submit">
-    </form>
+
     <div>{{data.content.description}}</div>
     {% if data.content.fields %}
         {% for attribute in data.content.fields %}
@@ -23,4 +20,5 @@
             </div>
         </div>   
     {% endif %}
+
 {% endblock %}

@@ -13,6 +13,8 @@
       <link type="text/x-scss" href="{% static 'main/util/reset.scss' %}" rel="stylesheet"/>
     {% endcompress %}
 
+    {% block htmlhead %}
+    {% endblock htmlhead %}
   </head>
   <body>
     {% include "./core/header.html" with static=static%}

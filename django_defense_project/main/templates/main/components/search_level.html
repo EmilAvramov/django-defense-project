@@ -1,11 +1,6 @@
 {% extends "../pages/search.html" %}
 
 {% block child %}
-    <form action="{% url 'api_app:search/level' %}" method="GET">
-        {{ form }}
-        <input type="submit" value="Submit">
-    </form>
-
     {% for digimon in  data%}
         <div>{{ digimon.id}}</div>
         <div>{{digimon.name}}</div>

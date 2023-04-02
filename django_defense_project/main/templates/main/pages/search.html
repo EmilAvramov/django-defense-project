@@ -2,9 +2,11 @@
 {% load static %}
 {% load compress %}
 
-{% compress css %}
-<link type="text/x-scss" href="{% static 'main/pages/search.scss' %}" rel="stylesheet">
-{% endcompress %}
+{% block htmlhead %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'main/pages/search.scss' %}" rel="stylesheet">
+    {% endcompress %}
+{% endblock htmlhead %}
 
 {% block content %}
     <div class="search__container">
@@ -12,27 +14,29 @@
             Please select a search type below
         </h2>
         <section class="search__cards">
-            <div class="search__card">
-                <a href="{% url 'api_app:search/digimon' %}">
-                    Digimon
-                </a>
-                <a href="{% url 'api_app:search/attribute' %}">
-                    Attribute
-                </a>
-                <a href="{% url 'api_app:search/field' %}">
-                    Field
-                </a>
-                <a href="{% url 'api_app:search/level' %}">
-                    Level
-                </a>
-                <a href="{% url 'api_app:search/type' %}">
-                    Type
-                </a>
-                <a href="{% url 'api_app:search/skill' %}">
-                    Skill
-                </a>
-            </div>
+            <a class="search__card" href="{% url 'api_app:search/digimon' %}">
+                Digimon
+            </a>
+            <a class="search__card" href="{% url 'api_app:search/attribute' %}">
+                Attribute
+            </a>
+            <a class="search__card" href="{% url 'api_app:search/field' %}">
+                Field
+            </a>
+            <a class="search__card" href="{% url 'api_app:search/level' %}">
+                Level
+            </a>
+            <a class="search__card" href="{% url 'api_app:search/type' %}">
+                Type
+            </a>
+            <a class="search__card" href="{% url 'api_app:search/skill' %}">
+                Skill
+            </a>
         </section>
+        <form class="search__form" action="{% url 'api_app:search/digimon' %}" method="GET">
+            {{ form }}
+            <input type="submit" value="Submit">
+        </form>
         <section class="search__results">
             {% block child %} {% endblock %} 
         </div>

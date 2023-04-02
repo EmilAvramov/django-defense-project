@@ -1,20 +1,14 @@
 {% extends "../pages/search.html" %}
 
 {% block child %}
-    <form action="{% url 'api_app:search/digimon' %}" method="GET">
-        {{ form }}
-        <input type="submit" value="Submit">
-    </form>
-
-    {{data}}
 
     {% if data.content %}
         {% for digimon in data.content%}
             <div class="search__result_card" data-pos={{digimon.id}}>
                 <a href={% url 'api_app:search/digimon_by_id' digimon.id %}>
-                    <div>{{digimon.name}}</div>
+                    <div class="card__name">{{digimon.name}}</div>
+                    <img class="card__image" src={{digimon.image}} alt="digimon image"/>
                 </a>
-                <img src={{digimon.image}}/>
             </div>
         {% endfor %}
     {% else %}
@@ -95,6 +89,30 @@
                             {% endif %}
                         </p>
                     {% endfor %}
+                </div>
+                <div class="search__details_priorEvos">
+                    {% if data.priorEvolutions %}
+                        {% for item in data.priorEvolutions%}
+                        <div class="priorEvos__item">
+                            <a href={% url 'api_app:search/digimon_by_id' item.id %}>
+                                <div>{{item.digimon}}</div>
+                            </a>
+                            <img src={{item.image}}/>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="search__details_nextEvos">
+                    {% if data.nextEvolutions %}
+                        {% for item in data.nextEvolutions%}
+                        <div class="nextEvos__item">
+                            <a href={% url 'api_app:search/digimon_by_id' item.id %}>
+                                <div>{{item.digimon}}</div>
+                            </a>
+                            <img src={{item.image}}/>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
     {% endif %}

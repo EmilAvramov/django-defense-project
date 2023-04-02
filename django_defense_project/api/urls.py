@@ -9,14 +9,14 @@ urlpatterns = [
         include(
             [
                 path(
-                    "digimon",
+                    "digimon/",
                     include(
                         [
                             path(
                                 "", ApiSearch.as_view(), name="search/digimon"
                             ),
                             path(
-                                "/<int:id>",
+                                "<int:id>",
                                 ApiSearch.as_view(),
                                 name="search/digimon_by_id",
                             ),
@@ -24,7 +24,7 @@ urlpatterns = [
                     ),
                 ),
                 path(
-                    "attribute",
+                    "attribute/",
                     include(
                         [
                             path(
@@ -33,7 +33,7 @@ urlpatterns = [
                                 name="search/attribute",
                             ),
                             path(
-                                "/<int:id>",
+                                "<int:id>",
                                 ApiSearch.as_view(),
                                 name="search/attribute_by_id",
                             ),
@@ -41,12 +41,12 @@ urlpatterns = [
                     ),
                 ),
                 path(
-                    "field",
+                    "field/",
                     include(
                         [
                             path("", ApiSearch.as_view(), name="search/field"),
                             path(
-                                "/<int:id>",
+                                "<int:id>",
                                 ApiSearch.as_view(),
                                 name="search/field_by_id",
                             ),
@@ -54,12 +54,12 @@ urlpatterns = [
                     ),
                 ),
                 path(
-                    "level",
+                    "level/",
                     include(
                         [
                             path("", ApiSearch.as_view(), name="search/level"),
                             path(
-                                "/<int:id>",
+                                "<int:id>",
                                 ApiSearch.as_view(),
                                 name="search/level_by_id",
                             ),
@@ -67,12 +67,12 @@ urlpatterns = [
                     ),
                 ),
                 path(
-                    "type",
+                    "type/",
                     include(
                         [
                             path("", ApiSearch.as_view(), name="search/type"),
                             path(
-                                "/<int:id>",
+                                "<int:id>",
                                 ApiSearch.as_view(),
                                 name="search/type_by_id",
                             ),
@@ -80,12 +80,12 @@ urlpatterns = [
                     ),
                 ),
                 path(
-                    "skill",
+                    "skill/",
                     include(
                         [
                             path("", ApiSearch.as_view(), name="search/skill"),
                             path(
-                                "/<int:id>",
+                                "<int:id>",
                                 ApiSearch.as_view(),
                                 name="search/skill_by_id",
                             ),
