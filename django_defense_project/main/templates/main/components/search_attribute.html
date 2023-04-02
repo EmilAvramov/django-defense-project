@@ -5,16 +5,22 @@
         {{ form }}
         <input type="submit" value="Submit">
     </form>
-
-    {% for digimon in  data%}
-        <div>{{ digimon.id}}</div>
-        <div>{{digimon.name}}</div>
-        {% for image in  data.images%}
-            <img src={{image.href}} alt="" />
+    <div>{{data.content.description}}</div>
+    {% if data.content.fields %}
+        {% for attribute in data.content.fields %}
+            <div class="search__result_card">
+                <div>
+                    <a href="{% url 'api_app:search/attribute_by_id' attribute.id %}">
+                        {{attribute.name}}
+                    </a>
+                </div>
+            </div>
         {% endfor %}
-        
-
-    {% endfor %}
-    Cached: {{ is_cached|yesno:"yes,no" }}
-
+    {% else %}
+        <div class="search__result_card">
+            <div>
+                {{data.name}}
+            </div>
+        </div>   
+    {% endif %}
 {% endblock %}

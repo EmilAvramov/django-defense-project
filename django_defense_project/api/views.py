@@ -11,21 +11,18 @@ class ApiSearch(TemplateView):
         self.form = forms.SearchForm()
         self.params = {"pageSize": 10}
 
-    def get(self, request):
+    def get(self, request, id=""):
         query = request.GET.get("query", None)
         data_type = request.path.split("/")[2]
-        print(data_type)
 
-        response = api.call(data_type, self.params, query)
+        response = api.call(data_type, self.params, query, id)
         data = response.get("data")
         error = response.get("error")
         template = response.get("template")
 
         if data:
             return render(
-                request,
-                template,
-                {"data": data.json(), "form": self.form},
+                request, template, {"data": data.json(), "form": self.form},
             )
         else:
             return render(request, template, {"error": error})
