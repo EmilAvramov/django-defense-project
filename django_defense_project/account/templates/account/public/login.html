@@ -1,4 +1,12 @@
 {% extends "main/base.html" %}
 {% block content %}
-    <div>login template</div>
+    <form class="login__form" action="{% url 'acc_app:login' %}" method="POST">
+        {% if error %}
+            {{error}}
+        {% endif %}
+        {{ form }}
+        <input type="submit" value="Submit">
+        {% csrf_token %}
+    </form>
+    
 {% endblock %}
