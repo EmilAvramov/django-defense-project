@@ -14,18 +14,18 @@
     {% else %}
             <div class="search__result_details" data-id={{data.id}}>
                 <p class="search__details_name">
-                    {{data.name}}
+                    Name: {{data.name}}
                 </p>
+                <div class="search__details_image">
+                    <img src={{data.images.0.href}}/>
+                </div>
                 <p class="search__details_antibody">
-                    {% if data.xAntibody == True %}
+                    xAntibody: {% if data.xAntibody == True %}
                         Yes
                     {% else %}
                         No
                     {% endif %}
                 </p>
-                <div class="search__details_image">
-                    <img src={{data.images.0.href}}/>
-                </div>
                 <div class="search__details_levels">
                     {% for item in data.levels %}
                         <p class="search__details_level">
@@ -57,7 +57,7 @@
                     {% for item in data.fields %}
                         <p>
                             <a href={% url 'api_app:search/field_by_id' item.id %}>
-                                {{item.field}}
+                                <img src="{{item.href}}"/>
                             </a>
                         </p>
                     {% endfor %}
@@ -94,10 +94,12 @@
                     {% if data.priorEvolutions %}
                         {% for item in data.priorEvolutions%}
                         <div class="priorEvos__item">
-                            <a href={% url 'api_app:search/digimon_by_id' item.id %}>
-                                <div>{{item.digimon}}</div>
-                            </a>
-                            <img src={{item.image}}/>
+                            {% if item.id %}
+                                <a href={% url 'api_app:search/digimon_by_id' item.id %}>
+                                    <div>{{item.digimon}}</div>
+                                </a>
+                                <img src={{item.image}}/>               
+                            {% endif %}
                         </div>
                         {% endfor %}
                     {% endif %}
@@ -106,10 +108,12 @@
                     {% if data.nextEvolutions %}
                         {% for item in data.nextEvolutions%}
                         <div class="nextEvos__item">
-                            <a href={% url 'api_app:search/digimon_by_id' item.id %}>
-                                <div>{{item.digimon}}</div>
-                            </a>
-                            <img src={{item.image}}/>
+                            {% if item.id %}
+                                <a href={% url 'api_app:search/digimon_by_id' item.id %}>
+                                    <div>{{item.digimon}}</div>
+                                </a>
+                                <img src={{item.image}}/>               
+                            {% endif %}
                         </div>
                         {% endfor %}
                     {% endif %}
