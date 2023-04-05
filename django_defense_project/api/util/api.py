@@ -1,7 +1,5 @@
 from requests import get
 from .config import endpoints, templates
-from .attachFieldLinks import attachFieldLinks
-
 
 def call(data_type, params={}, query="", id=""):
     error = False
@@ -21,7 +19,7 @@ def call(data_type, params={}, query="", id=""):
 
         data = get(url, headers=headers, params=params)
         if data:
-            data = attachFieldLinks(data)
+            data = data.json()
             return {
                 "data": data,
                 "error": error,

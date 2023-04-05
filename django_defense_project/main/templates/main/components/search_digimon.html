@@ -57,7 +57,7 @@
                     {% for item in data.fields %}
                         <p>
                             <a href={% url 'api_app:search/field_by_id' item.id %}>
-                                <img src="{{item.href}}"/>
+                                <img src="{{item.href}}" title="{{item.field}}"/>
                             </a>
                         </p>
                     {% endfor %}

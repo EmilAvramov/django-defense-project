@@ -2,7 +2,6 @@ ENDPOINT = "https://digimon-api.com/images/etc/fields"
 
 
 def attachFieldLinks(data):
-    data = data.json()
     array_data = data.get("content", False)
     if array_data:
         return data

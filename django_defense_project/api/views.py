@@ -3,7 +3,7 @@ from . import forms
 from django.views.generic.base import TemplateView
 from django.http import HttpResponseForbidden
 from .util import api
-
+from .decorators.attachFieldLinks import attachFieldLinks
 
 class ApiSearch(TemplateView):
     def __init__(self, **kwargs) -> None:
@@ -21,6 +21,7 @@ class ApiSearch(TemplateView):
         template = response.get("template")
 
         if data:
+            data = attachFieldLinks(data)
             return render(
                 request, template, {"data": data, "form": self.form},
             )
