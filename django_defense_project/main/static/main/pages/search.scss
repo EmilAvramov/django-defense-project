@@ -69,5 +69,88 @@
                 }
             }
         }
+
+        .search__result_details {
+            flex-basis: 70%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+
+            .results__top {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid black;
+                padding: 1rem;
+
+            }
+            .results__middle {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                border: 1px solid black;
+                padding: 1rem;
+            }
+
+            .results__bottom {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                border: 1px solid black;
+                padding: 1rem;
+
+                .search__details_priorEvos {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    border: 1px solid black;
+                    padding: 1rem;
+                }
+
+                .search__details_nextEvos {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    border: 1px solid black;
+                    padding: 1rem;
+                }
+
+                .search__details_priorEvos, .search__details_nextEvos {
+                    .evo__item {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        flex-wrap: wrap;
+                        flex-basis: 20%;
+    
+                        a {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            flex-wrap: wrap;
+                            flex-direction: column;
+    
+                            div {
+                                padding: 0.5rem 0rem;
+                            }
+
+                            img {
+                                width: 40%;
+                                height: 40%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

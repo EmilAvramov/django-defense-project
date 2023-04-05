@@ -1,21 +1,29 @@
 from requests import get
 from .config import endpoints, templates
 
+
+def compileQuery(data_type, query="", id=""):
+    target = ""
+
+    if query:
+        target = query
+    if id:
+        target = id
+
+    if target:
+        url = f"{endpoints[data_type]}/{target}"
+    else:
+        url = f"{endpoints[data_type]}"
+
+    return url
+
+
 def call(data_type, params={}, query="", id=""):
     error = False
     headers = {}
-    single = ""
-
-    if query:
-        single = query
-    if id:
-        single = id
 
     try:
-        if single:
-            url = f"{endpoints[data_type]}/{single}"
-        else:
-            url = f"{endpoints[data_type]}"
+        url = compileQuery(data_type, query, id)
 
         data = get(url, headers=headers, params=params)
         if data:
