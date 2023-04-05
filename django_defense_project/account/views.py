@@ -5,7 +5,7 @@ from . import forms
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
-from django.http import HttpResponseForbidden
+from django.contrib import messages
 
 
 class Login(TemplateView):
@@ -26,12 +26,37 @@ class Login(TemplateView):
             login(request, user)
             return redirect("search/digimon")
         else:
-            error = "not authenticated"
+            error = "Wrong credentials."
+            return render(
+                request, self.template, {"form": self.form, "error": error}
+            )
+
+
+class Register(TemplateView):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.form = forms.RegisterForm()
+        self.template = "account/public/register.html"
+
+    def get(self, request):
+        return render(request, self.template, {"form": self.form})
+
+    def post(self, request):
+        form = forms.RegisterForm(request.POST)
+        if form.is_valid():
+            password_1 = form.cleaned_data["password"]
+            password_2 = form.cleaned_data["password2"]
+            if password_1 == password_2:
+                user = form.save()
+                messages.success(request, 'Successfully registered!')
+                login(request, user)
+                return redirect("search/digimon")
+            else:
+                error = "Password do not match."
+                return render(request, self.template, {"form": self.form, "error": error})
+        else:
+            error = "Something went wrong. Please try again."
             return render(request, self.template, {"form": self.form, "error": error})
-
-
-def register(request):
-    return render(request, "account/public/register.html", {})
 
 
 def profile(request):
