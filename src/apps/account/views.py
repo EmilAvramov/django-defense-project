@@ -12,7 +12,7 @@ class Login(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.form = forms.LoginForm()
-        self.template = "account/public/login.html"
+        self.template = "pages/login.html"
 
     def get(self, request):
         return render(request, self.template, {"form": self.form})
@@ -36,7 +36,7 @@ class Register(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.form = forms.RegisterForm()
-        self.template = "account/public/register.html"
+        self.template = "pages/register.html"
 
     def get(self, request):
         return render(request, self.template, {"form": self.form})
@@ -60,4 +60,4 @@ class Register(TemplateView):
 
 
 def profile(request):
-    return render(request, "account/protected/profile.html", {})
+    return render(request, "pages/profile.html", {})
