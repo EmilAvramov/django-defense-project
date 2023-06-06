@@ -1,31 +1,32 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
+
+from .managers import CustomUserManager
 
 
-class User(models.Model):
+class User(AbstractUser, PermissionsMixin):
+    username = None
     email = models.EmailField(
         "Email", max_length=64, unique=True, db_index=True
     )
-    username = models.CharField(
-        "Username", max_length=64, unique=True, db_index=True
-    )
-    password = models.CharField("Password", max_length=64)
-    first_name = models.CharField("First Name", max_length=64)
-    last_name = models.CharField("Last Name", max_length=64)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+    objects = CustomUserManager()
 
     class Meta:
         verbose_name = "Registered User"
         verbose_name_plural = "Registered Users"
 
     def __str__(self):
-        return f"${self.username}, ${self.email}, ${self.first_name} ${self.last_name}"
+        return self.email
 
     def get_absolute_url(self):
         return reverse(
-            "user_detail",
-            kwargs={
-                "id": self.id,
-                "email": self.email,
-                "username": self.username,
-            },
+            "user_detail", kwargs={"id": self.id, "email": self.email},
         )

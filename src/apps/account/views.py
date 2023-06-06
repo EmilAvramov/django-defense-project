@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib import messages
+from .models import User
 
 
 class Login(TemplateView):
@@ -21,7 +22,7 @@ class Login(TemplateView):
     def post(self, request):
         email = request.POST["email"]
         password = request.POST["password"]
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(email=email, password=password)
         if user is not None:
             login(request, user)
             return redirect("search/digimon")
@@ -44,19 +45,24 @@ class Register(TemplateView):
     def post(self, request):
         form = forms.RegisterForm(request.POST)
         if form.is_valid():
+            email = form.cleaned_data['email']
             password_1 = form.cleaned_data["password"]
             password_2 = form.cleaned_data["password2"]
             if password_1 == password_2:
-                user = form.save()
-                messages.success(request, 'Successfully registered!')
+                user = User.objects.create_user(email=email, password=password_1)
+                messages.success(request, "Successfully registered!")
                 login(request, user)
                 return redirect("search/digimon")
             else:
                 error = "Password do not match."
-                return render(request, self.template, {"form": self.form, "error": error})
+                return render(
+                    request, self.template, {"form": self.form, "error": error}
+                )
         else:
             error = "Something went wrong. Please try again."
-            return render(request, self.template, {"form": self.form, "error": error})
+            return render(
+                request, self.template, {"form": self.form, "error": error}
+            )
 
 
 def profile(request):
