@@ -28,6 +28,7 @@ def call(data_type, params={}, query="", id=""):
         data = get(url, headers=headers, params=params)
         if data:
             data = data.json()
+            print(data)
             return {
                 "data": data,
                 "error": error,

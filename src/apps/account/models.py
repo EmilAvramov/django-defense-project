@@ -5,11 +5,16 @@ from django.contrib.auth.models import AbstractUser, PermissionsMixin
 
 from .managers import CustomUserManager
 
+GENDER = (
+    ("Male", "Male"),
+    ("Female", "Female"),
+)
+
 
 class User(AbstractUser, PermissionsMixin):
     username = None
     email = models.EmailField(
-        "Email", max_length=64, unique=True, db_index=True
+        verbose_name="Email", max_length=64, unique=True, db_index=True
     )
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -30,3 +35,14 @@ class User(AbstractUser, PermissionsMixin):
         return reverse(
             "user_detail", kwargs={"id": self.id, "email": self.email},
         )
+
+
+class Profile(User):
+    age = models.IntegerField(verbose_name="Age")
+    gender = models.CharField(
+        verbose_name="Gender", max_length=6, choices=GENDER
+    )
+    digimons = models.ManyToManyField("main.Digimon", related_name="digimons")
+    bookmarks = models.ManyToManyField(
+        "main.Digimon", related_name="bookmarks"
+    )

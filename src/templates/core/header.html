@@ -11,24 +11,41 @@
     <nav class="navbar">
 
         <ul class="navbar_list">
-          <li class="navbar_item">
-            <a class="navbar_link" href="{% url 'main_app:home' %}">Home</a>
-          </li>
-          <li>
-            <a class="navbar_link" href="{% url 'main_app:search' %}">Search</a>
-          </li>
-          <li>
-            <a class="navbar_link" href="{% url 'acc_app:login' %}">Login</a>
-          </li>
-          <li>
-            <a class="navbar_link" href="{% url 'acc_app:register' %}">Register</a>
-          </li>
-          <li>
-            <a class="navbar_link" href="{% url 'acc_app:profile' %}">Profile</a>
-          </li>
-          <li>
-            <a class="navbar_link" href="{% url 'main_app:about' %}">About</a>
-          </li>
+
+          {% if user.is_authenticated %}
+            <li class="navbar_item">
+              <a class="navbar_link" href="{% url 'main_app:home' %}">Home</a>
+            </li>
+            <li>
+              <a class="navbar_link" href="{% url 'main_app:search' %}">Search</a>
+            </li>
+            <li>
+              <a class="navbar_link" href="{% url 'acc_app:profile' %}">Profile</a>
+            </li>
+            <li>
+              <a class="navbar_link" href="{% url 'main_app:about' %}">About</a>
+            </li>
+            <li>
+              <a class="navbar_link" href="{% url 'acc_app:logout' %}">Logout</a>
+            </li>
+          {% else %}
+            <li class="navbar_item">
+              <a class="navbar_link" href="{% url 'main_app:home' %}">Home</a>
+            </li>
+            <li>
+              <a class="navbar_link" href="{% url 'main_app:search' %}">Search</a>
+            </li>
+            <li>
+              <a class="navbar_link" href="{% url 'acc_app:login' %}">Login</a>
+            </li>
+            <li>
+              <a class="navbar_link" href="{% url 'acc_app:register' %}">Register</a>
+            </li>
+            <li>
+              <a class="navbar_link" href="{% url 'main_app:about' %}">About</a>
+            </li>
+          {% endif %}
+
         </ul>
       
       </nav>

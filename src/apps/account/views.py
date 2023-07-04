@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
 from . import forms
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib import messages
@@ -45,11 +45,13 @@ class Register(TemplateView):
     def post(self, request):
         form = forms.RegisterForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
+            email = form.cleaned_data["email"]
             password_1 = form.cleaned_data["password"]
             password_2 = form.cleaned_data["password2"]
             if password_1 == password_2:
-                user = User.objects.create_user(email=email, password=password_1)
+                user = User.objects.create_user(
+                    email=email, password=password_1
+                )
                 messages.success(request, "Successfully registered!")
                 login(request, user)
                 return redirect("search/digimon")
@@ -67,3 +69,12 @@ class Register(TemplateView):
 
 def profile(request):
     return render(request, "pages/profile.html", {})
+
+
+class Logout(TemplateView):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+
+    def get(self, request):
+        logout(request)
+        return redirect('/')
