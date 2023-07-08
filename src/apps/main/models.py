@@ -63,3 +63,4 @@ class Digimon(models.Model):
     next_evos = models.ManyToManyField(
         DigimonEvolution, related_name="nextEvolutions"
     )
+    comments = models.TextField(verbose_name="Comments")

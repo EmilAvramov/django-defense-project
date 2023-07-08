@@ -6,8 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib import messages
-from .models import User
+from .models import User, UserProfile
 from django.http import HttpResponseForbidden
+from django.db import transaction
 
 
 class Login(TemplateView):
@@ -75,27 +76,36 @@ class Register(TemplateView):
 
     def post(self, request):
         form = forms.RegisterForm(request.POST)
+        result = self.createUser(form)
+        if result[0] == "Success":
+            messages.success(request, "Successfully registered!")
+            login(request, result[1])
+            return redirect("main_app:search")
+        else:
+            return render(
+                request, self.template, {"form": self.form, "error": result[1]}
+            )
+
+    @transaction.atomic
+    def createUser(self, form):
         if form.is_valid():
             email = form.cleaned_data["email"]
             password_1 = form.cleaned_data["password"]
             password_2 = form.cleaned_data["password2"]
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
             if password_1 == password_2:
                 user = User.objects.create_user(
-                    email=email, password=password_1
+                    email=email,
+                    password=password_1,
+                    first_name=first_name,
+                    last_name=last_name,
                 )
-                messages.success(request, "Successfully registered!")
-                login(request, user)
-                return redirect("main_app:search")
+                UserProfile.objects.create(user=user)
+                return ["Success", user]
             else:
-                error = "Password do not match."
-                return render(
-                    request, self.template, {"form": self.form, "error": error}
-                )
-        else:
-            error = "Something went wrong. Please try again."
-            return render(
-                request, self.template, {"form": self.form, "error": error}
-            )
+                return ["Error", "Password do not match."]
+        return ["Error", "Something went wrong. Please try again."]
 
     def patch(self, request):
         return HttpResponseForbidden()

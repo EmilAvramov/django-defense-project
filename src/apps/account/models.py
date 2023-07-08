@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django_defense_project.settings import AUTH_USER_MODEL
 
 from .managers import CustomUserManager
 
@@ -37,12 +38,19 @@ class User(AbstractUser, PermissionsMixin):
         )
 
 
-class Profile(User):
-    age = models.IntegerField(verbose_name="Age")
+class UserProfile(models.Model):
+    user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE)
+    age = models.IntegerField(verbose_name="Age", blank=True, null=True)
     gender = models.CharField(
-        verbose_name="Gender", max_length=6, choices=GENDER
+        verbose_name="Gender", max_length=6, choices=GENDER, blank=True, null=True
     )
     digimons = models.ManyToManyField("main.Digimon", related_name="digimons")
     bookmarks = models.ManyToManyField(
         "main.Digimon", related_name="bookmarks"
     )
+    class Meta:
+        verbose_name = "User Profile"
+        verbose_name_plural = "User Profiles"
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
