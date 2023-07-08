@@ -30,7 +30,7 @@ class User(AbstractUser, PermissionsMixin):
         verbose_name_plural = "Registered Users"
 
     def __str__(self):
-        return self.email
+        return f"{self.email} - {self.first_name} {self.last_name}"
 
     def get_absolute_url(self):
         return reverse(
@@ -42,15 +42,17 @@ class UserProfile(models.Model):
     user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE)
     age = models.IntegerField(verbose_name="Age", blank=True, null=True)
     gender = models.CharField(
-        verbose_name="Gender", max_length=6, choices=GENDER, blank=True, null=True
+        verbose_name="Gender",
+        max_length=6,
+        choices=GENDER,
+        blank=True,
+        null=True,
     )
     digimons = models.ManyToManyField("main.Digimon", related_name="digimons")
     bookmarks = models.ManyToManyField(
         "main.Digimon", related_name="bookmarks"
     )
+
     class Meta:
         verbose_name = "User Profile"
         verbose_name_plural = "User Profiles"
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"

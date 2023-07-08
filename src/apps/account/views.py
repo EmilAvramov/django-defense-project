@@ -117,9 +117,54 @@ class Register(TemplateView):
         return HttpResponseForbidden()
 
 
-def profile(request):
-    if request.user:
-        return render(request, "pages/profile.html", {})
+def profile_details(request):
+    user = request.user
+    if user:
+        profile = UserProfile.objects.get(user=user.id)
+        return render(
+            request,
+            "components/profile_details.html",
+            {"user": user, "profile": profile},
+        )
+    else:
+        return redirect("account:login")
+
+
+def profile_edit(request):
+    user = request.user
+    if user:
+        profile = UserProfile.objects.get(user=user.id)
+        return render(
+            request,
+            "components/profile_edit.html",
+            {"user": user, "profile": profile},
+        )
+    else:
+        return redirect("account:login")
+
+
+def profile_password(request):
+    user = request.user
+    if user:
+        profile = UserProfile.objects.get(user=user.id)
+        return render(
+            request,
+            "components/profile_password.html",
+            {"user": user, "profile": profile},
+        )
+    else:
+        return redirect("account:login")
+
+
+def profile_delete(request):
+    user = request.user
+    if user:
+        profile = UserProfile.objects.get(user=user.id)
+        return render(
+            request,
+            "components/profile_delete.html",
+            {"user": user, "profile": profile},
+        )
     else:
         return redirect("account:login")
 

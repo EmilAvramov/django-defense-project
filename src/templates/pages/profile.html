@@ -1,4 +1,33 @@
 {% extends "../base.html" %}
+{% load static %}
+{% load compress %}
+
+{% block htmlhead %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'styles/pages/profile.scss' %}" rel="stylesheet">
+    {% endcompress %}
+{% endblock htmlhead %}
+
 {% block content %}
-    <div>profile template</div>
+    <div class="profile__container">
+        <nav class="profile__nav">
+            <uL class="profile__nav_items">
+                <li>
+                    <a class="nav_link" href="{% url 'acc_app:edit_profile' %}">Edit Profile</a>
+                </li>
+                <li>
+                    <a class="nav_link" href="{% url 'acc_app:change_password' %}">Change Password</a>
+                </li>
+                <li>
+                    <a class="nav_link" href="{% url 'acc_app:delete_profile' %}">Delete Profile</a>
+                </li>
+                <li>
+                    <a class="nav_link" href="{% url 'acc_app:logout' %}">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        <section class="profile__details">
+            {% block child %} {% endblock %} 
+        </div>
+    </div>
 {% endblock %}
