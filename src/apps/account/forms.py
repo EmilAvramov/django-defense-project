@@ -14,8 +14,8 @@ class LoginForm(forms.ModelForm):
 
 
 class RegisterForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=100)
-    last_name = forms.CharField(max_length=100)
+    first_name = forms.CharField(label="First Name", max_length=100)
+    last_name = forms.CharField(label="Last Name", max_length=100)
     password = forms.CharField(
         label="Password", widget=forms.PasswordInput, max_length=64
     )
@@ -31,13 +31,26 @@ class RegisterForm(forms.ModelForm):
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = UserModel
-        fields = "__all__"
+        fields = ["email", "first_name", "last_name"]
 
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = UserProfileModel
-        fields = "__all__"
+        fields = ["age", "gender", "image"]
+
+
+class PasswordEditForm(forms.ModelForm):
+    password = forms.CharField(
+        label="Password", widget=forms.PasswordInput, max_length=64
+    )
+    password2 = forms.CharField(
+        label="Repeat Password", widget=forms.PasswordInput, max_length=64
+    )
+
+    class Meta:
+        model = UserProfileModel
+        fields = ["password", "password2"]
 
 
 class UserCreationForm(UserCreationForm):

@@ -9,6 +9,7 @@ from django.contrib import messages
 from .models import UserModel, UserProfileModel
 from django.http import HttpResponseForbidden
 from django.db import transaction
+from django.contrib.auth.decorators import login_required
 
 
 class Login(TemplateView):
@@ -27,6 +28,9 @@ class Login(TemplateView):
         user = authenticate(email=email, password=password)
         if user is not None:
             login(request, user)
+            next = request.POST.get("next", None)
+            if next:
+                return redirect(next)
             return redirect("main_app:search")
         else:
             error = "Wrong credentials."
@@ -118,41 +122,78 @@ class Register(TemplateView):
         return HttpResponseForbidden()
 
 
+@login_required()
 def profile_details(request):
     user = request.user
-    if user:
-        profile = UserProfileModel.objects.get(user=user.id)
-        return render(
-            request,
-            "components/profile_details.html",
-            {"user": user, "profile": profile},
-        )
-    else:
-        return redirect("account:login")
+    profile = UserProfileModel.objects.get(user=user.id)
+    return render(
+        request,
+        "components/profile_details.html",
+        {"user": user, "profile": profile},
+    )
 
 
 class ProfileEdit(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.user = self.request.user
-        self.profile = UserProfileModel.objects.get(user=self.user.id)
-        self.userForm = UserEditForm(initial=self.user.__dict__)
-        self.profileForm = ProfileEditForm(initial=self.profile.__dict__)
 
+    @login_required()
     def get(self, request):
+        user = request.user
+        profile = UserProfileModel.objects.get(user=user.id)
+        userInitial = {
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+        }
+        profileInitial = {
+            "age": profile.age,
+            "gender": profile.gender,
+            "image": profile.image,
+        }
         context = {
-            "user": self.user,
-            "profile": self.profile,
-            "userForm": self.userForm,
-            "profileForm": self.profileForm,
+            "user": user,
+            "profile": profile,
+            "userForm": UserEditForm(initial=userInitial),
+            "profileForm": ProfileEditForm(initial=profileInitial),
         }
         return render(request, "components/profile_edit.html", context)
 
     @method_decorator(csrf_protect)
     def post(self, request):
-        pass
+        user = request.user
+        profile = UserProfileModel.objects.get(user=user.id)
+        userForm = UserEditForm(request.POST, instance=user)
+        profileForm = ProfileEditForm(request.POST, instance=profile)
+        if self.updateData(user.id, userForm, profileForm):
+            messages.success(request, "Successfully edited profile!")
+            return redirect("acc_app:profile")
+        else:
+            context = {
+                "user": user,
+                "profile": profile,
+                "userForm": userForm,
+                "profileForm": profileForm,
+            }
+            return render(request, "components/profile_edit.html", context)
+
+    def updateData(self, user_id, userForm, profileForm):
+        if userForm.is_valid() and profileForm.is_valid():
+            UserModel.objects.filter(id=user_id).update(
+                email=userForm.cleaned_data["email"],
+                first_name=userForm.cleaned_data["first_name"],
+                last_name=userForm.cleaned_data["last_name"],
+            )
+            UserProfileModel.objects.filter(user=user_id).update(
+                age=profileForm.cleaned_data["age"],
+                gender=profileForm.cleaned_data["gender"],
+                image=profileForm.cleaned_data["image"],
+            )
+            return True
+        return False
 
 
+@login_required()
 def profile_edit(request):
     user = request.user
     if user:
@@ -166,6 +207,7 @@ def profile_edit(request):
         return redirect("account:login")
 
 
+@login_required()
 def profile_password(request):
     user = request.user
     if user:
@@ -179,6 +221,7 @@ def profile_password(request):
         return redirect("account:login")
 
 
+@login_required()
 def profile_delete(request):
     user = request.user
     if user:
@@ -192,6 +235,7 @@ def profile_delete(request):
         return redirect("account:login")
 
 
+@login_required()
 def library(request):
     if request.user:
         return render(request, "pages/library.html", {})

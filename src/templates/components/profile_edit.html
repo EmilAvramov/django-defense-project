@@ -1,5 +1,10 @@
 {% extends "../pages/profile.html" %}
 
 {% block child %}
-    <div>Profile Edit</div>
+    <form class="profile__edit_form" action="{% url 'acc_app:edit_profile' %}" method="POST">
+        {{ userForm }}
+        {{ profileForm }}
+        <input type="submit" value="Submit">
+        {% csrf_token %}
+    </form>
 {% endblock %}
