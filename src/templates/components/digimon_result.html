@@ -34,31 +34,33 @@
                             {% endif %}
                         </p>
                         <div class="search__details_levels">
+                            <p class="search__details_level">
+                                Levels: 
+                            </p>
                             {% for item in data.levels %}
-                                <p class="search__details_level">
-                                    {{item.level}}
-                                </p>
+                                {{item.level}}
                             {% endfor %}
                         </div>
                         <p class="search__details_type">
+                            <p>
+                                Types:
+                            </p>
                             {% for item in data.types %}
-                                <p>
-                                    {{item.type}}
-                                </p>
+                                {{item.type}}
                             {% endfor %}
                         </p>
                         <div class="search__details_attributes">
+                            <p>
+                                Attributes: 
+                            </p>
                             {% for item in data.attributes %}
-                                <p>
-                                    {{item.attribute}}
-                                </p>
+                                {{item.attribute}}
                             {% endfor %}
                         </div>
                         <div class="search__details_fields">
+                            <p>Fields:</p>
                             {% for item in data.fields %}
-                                <p>
-                                    <img src="{{item.href}}" title="{{item.field}}"/>
-                                </p>
+                                <img src="{{item.href}}" title="{{item.field}}"/>
                             {% endfor %}
                         </div>
                         {% if data.releaseDate %}

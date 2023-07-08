@@ -14,7 +14,7 @@ class Search(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.form = forms.SearchForm()
-        self.params = {"pageSize": 10}
+        self.params = {"pageSize": 20}
 
     def get(self, request, id=""):
         data_type = "digimon"

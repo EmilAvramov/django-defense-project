@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from .models import User
+from django.http import HttpResponseForbidden
 
 
 class Login(TemplateView):
@@ -25,12 +26,42 @@ class Login(TemplateView):
         user = authenticate(email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect("search/digimon")
+            return redirect("main_app:search")
         else:
             error = "Wrong credentials."
             return render(
                 request, self.template, {"form": self.form, "error": error}
             )
+
+    def patch(self, request):
+        return HttpResponseForbidden()
+
+    def put(self, request):
+        return HttpResponseForbidden()
+
+    def delete(self, request):
+        return HttpResponseForbidden()
+
+
+class Logout(TemplateView):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+
+    def get(self, request):
+        logout(request)
+        return redirect("/")
+
+    def post(self, request):
+        return HttpResponseForbidden()
+
+    def patch(self, request):
+        return HttpResponseForbidden()
+
+    def put(self, request):
+        return HttpResponseForbidden()
+
+    def delete(self, request):
+        return HttpResponseForbidden()
 
 
 class Register(TemplateView):
@@ -54,7 +85,7 @@ class Register(TemplateView):
                 )
                 messages.success(request, "Successfully registered!")
                 login(request, user)
-                return redirect("search/digimon")
+                return redirect("main_app:search")
             else:
                 error = "Password do not match."
                 return render(
@@ -66,15 +97,25 @@ class Register(TemplateView):
                 request, self.template, {"form": self.form, "error": error}
             )
 
+    def patch(self, request):
+        return HttpResponseForbidden()
+
+    def put(self, request):
+        return HttpResponseForbidden()
+
+    def delete(self, request):
+        return HttpResponseForbidden()
+
 
 def profile(request):
-    return render(request, "pages/profile.html", {})
+    if request.user:
+        return render(request, "pages/profile.html", {})
+    else:
+        return redirect("account:login")
 
 
-class Logout(TemplateView):
-    def __init__(self, **kwargs) -> None:
-        super().__init__(**kwargs)
-
-    def get(self, request):
-        logout(request)
-        return redirect('/')
+def library(request):
+    if request.user:
+        return render(request, "pages/profile.html", {})
+    else:
+        return redirect("account:login")
