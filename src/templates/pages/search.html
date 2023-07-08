@@ -13,9 +13,6 @@
         <h2 class="search__heading">
             Please enter a digimon name or ID below
         </h2>
-        <a class="search__card" href="{% url 'main_app:search' %}">
-            Back to list
-        </a>
         <form class="search__form" action="{% url 'main_app:search' %}" method="GET">
             {{ form }}
             <input type="submit" value="Submit">

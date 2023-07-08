@@ -9,11 +9,6 @@ endpoints = {
 
 
 templates = {
-    "digimon": "components/search_digimon.html",
-    "attribute": "components/search_attribute.html",
-    "field": "components/search_field.html",
-    "level": "components/search_level.html",
-    "type": "components/search_type.html",
-    "skill": "components/search_skill.html",
+    "digimon": "components/digimon_result.html",
     "error": "core/error.html",
 }
