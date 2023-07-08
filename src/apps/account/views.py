@@ -1,7 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
-from .forms import LoginForm, RegisterForm, ProfileEditForm, UserEditForm
+from .forms import (
+    LoginForm,
+    RegisterForm,
+    ProfileEditForm,
+    UserEditForm,
+    PasswordEditForm,
+)
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
@@ -136,8 +142,9 @@ def profile_details(request):
 class ProfileEdit(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
+        self.template = "components/profile_edit.html"
 
-    @login_required()
+    @method_decorator(login_required)
     def get(self, request):
         user = request.user
         profile = UserProfileModel.objects.get(user=user.id)
@@ -157,7 +164,7 @@ class ProfileEdit(TemplateView):
             "userForm": UserEditForm(initial=userInitial),
             "profileForm": ProfileEditForm(initial=profileInitial),
         }
-        return render(request, "components/profile_edit.html", context)
+        return render(request, self.template, context)
 
     @method_decorator(csrf_protect)
     def post(self, request):
@@ -175,7 +182,7 @@ class ProfileEdit(TemplateView):
                 "userForm": userForm,
                 "profileForm": profileForm,
             }
-            return render(request, "components/profile_edit.html", context)
+            return render(request, self.template, context)
 
     def updateData(self, user_id, userForm, profileForm):
         if userForm.is_valid() and profileForm.is_valid():
@@ -192,19 +199,55 @@ class ProfileEdit(TemplateView):
             return True
         return False
 
+    def patch(self, request):
+        return HttpResponseForbidden()
 
-@login_required()
-def profile_edit(request):
-    user = request.user
-    if user:
+    def put(self, request):
+        return HttpResponseForbidden()
+
+    def delete(self, request):
+        return HttpResponseForbidden()
+
+
+class ProfilePassword(TemplateView):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.template = "components/profile_password.html"
+
+    @method_decorator(login_required)
+    def get(self, request):
+        user = request.user
+        form = PasswordEditForm()
         profile = UserProfileModel.objects.get(user=user.id)
-        return render(
-            request,
-            "components/profile_edit.html",
-            {"user": user, "profile": profile},
-        )
-    else:
-        return redirect("account:login")
+        context = {"user": user, "profile": profile, "form": form}
+        return render(request, self.template, context)
+
+    @method_decorator(csrf_protect)
+    def post(self, request):
+        user = request.user
+        profile = UserProfileModel.objects.get(user=user.id)
+        form = PasswordEditForm(request.POST)
+        if form.is_valid():
+            oldPassword = form.cleaned_data['oldPassword']
+            newPassword = form.cleaned_data['newPassword']
+            newPassword2 = form.cleaned_data['newPassword2']
+            password_correct = authenticate(email=user.email, password=oldPassword)
+            if password_correct is not None and newPassword == newPassword2:
+                user.set_password(newPassword)
+                user.save()
+                return redirect("acc_app:profile")
+            else:
+                context = {"user": user, "profile": profile, "form": form}
+                return render(request, self.template, context)
+
+    def patch(self, request):
+        return HttpResponseForbidden()
+
+    def put(self, request):
+        return HttpResponseForbidden()
+
+    def delete(self, request):
+        return HttpResponseForbidden()
 
 
 @login_required()

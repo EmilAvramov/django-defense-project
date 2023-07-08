@@ -41,16 +41,19 @@ class ProfileEditForm(forms.ModelForm):
 
 
 class PasswordEditForm(forms.ModelForm):
-    password = forms.CharField(
-        label="Password", widget=forms.PasswordInput, max_length=64
+    oldPassword = forms.CharField(
+        label="Old Password", widget=forms.PasswordInput, max_length=64
     )
-    password2 = forms.CharField(
+    newPassword = forms.CharField(
+        label="New Password", widget=forms.PasswordInput, max_length=64
+    )
+    newPassword2 = forms.CharField(
         label="Repeat Password", widget=forms.PasswordInput, max_length=64
     )
 
     class Meta:
-        model = UserProfileModel
-        fields = ["password", "password2"]
+        model = UserModel
+        fields = ["oldPassword", "newPassword", "newPassword2"]
 
 
 class UserCreationForm(UserCreationForm):
