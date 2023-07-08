@@ -33,36 +33,28 @@
                         <div class="search__details_levels">
                             {% for item in data.levels %}
                                 <p class="search__details_level">
-                                    <a href={% url 'api_app:search/level_by_id' item.id %}>
-                                        {{item.level}}
-                                    </a>
+                                    {{item.level}}
                                 </p>
                             {% endfor %}
                         </div>
                         <p class="search__details_type">
                             {% for item in data.types %}
                                 <p>
-                                    <a href={% url 'api_app:search/type_by_id' item.id %}>
-                                        {{item.type}}
-                                    </a>
+                                    {{item.type}}
                                 </p>
                             {% endfor %}
                         </p>
                         <div class="search__details_attributes">
                             {% for item in data.attributes %}
                                 <p>
-                                    <a href={% url 'api_app:search/attribute_by_id' item.id %}>
-                                        {{item.attribute}}
-                                    </a>
+                                    {{item.attribute}}
                                 </p>
                             {% endfor %}
                         </div>
                         <div class="search__details_fields">
                             {% for item in data.fields %}
                                 <p>
-                                    <a href={% url 'api_app:search/field_by_id' item.id %}>
-                                        <img src="{{item.href}}" title="{{item.field}}"/>
-                                    </a>
+                                    <img src="{{item.href}}" title="{{item.field}}"/>
                                 </p>
                             {% endfor %}
                         </div>
@@ -82,9 +74,7 @@
                     <div class="search__details_skills">
                         {% for item in data.skills %}
                             <p>
-                                <a href={% url 'api_app:search/skill_by_id' item.id %}>
-                                    Skill Name: {{item.skill}}
-                                </a>
+                                Skill Name: {{item.skill}}
                                 {% if item.description %}
                                     <p>
                                         Description: {{item.description}}

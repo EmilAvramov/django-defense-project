@@ -11,29 +11,12 @@
 {% block content %}
     <div class="search__container">
         <h2 class="search__heading">
-            Please select a search type below
+            Please enter a digimon name or ID below
         </h2>
-        <section class="search__cards">
-            <a class="search__card" href="{% url 'api_app:search/digimon' %}">
-                Digimon
-            </a>
-            <a class="search__card" href="{% url 'api_app:search/attribute' %}">
-                Attribute
-            </a>
-            <a class="search__card" href="{% url 'api_app:search/field' %}">
-                Field
-            </a>
-            <a class="search__card" href="{% url 'api_app:search/level' %}">
-                Level
-            </a>
-            <a class="search__card" href="{% url 'api_app:search/type' %}">
-                Type
-            </a>
-            <a class="search__card" href="{% url 'api_app:search/skill' %}">
-                Skill
-            </a>
-        </section>
-        <form class="search__form" action="{% url 'api_app:search/digimon' %}" method="GET">
+        <a class="search__card" href="{% url 'main_app:search' %}">
+            Back to list
+        </a>
+        <form class="search__form" action="{% url 'main_app:search' %}" method="GET">
             {{ form }}
             <input type="submit" value="Submit">
         </form>

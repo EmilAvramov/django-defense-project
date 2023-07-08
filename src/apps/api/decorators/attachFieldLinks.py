@@ -9,12 +9,10 @@ def attachFieldLinks(data):
         fields = data.get("fields", False)
         if fields:
             for item in data["fields"]:
-                print(item)
                 try:
                     item["href"] = f"{ENDPOINT}/{item['field']}.png"
                 except Exception as e:
                     print(e)
-                print(item)
             return data
         else:
             return data
