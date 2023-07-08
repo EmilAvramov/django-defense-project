@@ -2,13 +2,13 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import User
+from .models import UserModel
 
 
 class Admin(UserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
-    model = User
+    model = UserModel
     list_display = (
         "email",
         "is_staff",
@@ -54,4 +54,4 @@ class Admin(UserAdmin):
     ordering = ("email",)
 
 
-admin.site.register(User, Admin)
+admin.site.register(UserModel, Admin)

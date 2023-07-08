@@ -12,7 +12,7 @@ GENDER = (
 )
 
 
-class User(AbstractUser, PermissionsMixin):
+class UserModel(AbstractUser, PermissionsMixin):
     username = None
     email = models.EmailField(
         verbose_name="Email", max_length=64, unique=True, db_index=True
@@ -38,7 +38,7 @@ class User(AbstractUser, PermissionsMixin):
         )
 
 
-class UserProfile(models.Model):
+class UserProfileModel(models.Model):
     user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE)
     age = models.IntegerField(verbose_name="Age", blank=True, null=True)
     gender = models.CharField(
@@ -48,7 +48,9 @@ class UserProfile(models.Model):
         blank=True,
         null=True,
     )
-    image = models.URLField(verbose_name="Profile Picture", blank=True, null=True)
+    image = models.URLField(
+        verbose_name="Profile Picture", blank=True, null=True
+    )
     digimons = models.ManyToManyField("main.Digimon", related_name="digimons")
     bookmarks = models.ManyToManyField(
         "main.Digimon", related_name="bookmarks"

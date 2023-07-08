@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
-from . import forms
+from .forms import LoginForm, RegisterForm, ProfileEditForm, UserEditForm
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib import messages
-from .models import User, UserProfile
+from .models import UserModel, UserProfileModel
 from django.http import HttpResponseForbidden
 from django.db import transaction
 
@@ -14,7 +14,7 @@ from django.db import transaction
 class Login(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.form = forms.LoginForm()
+        self.form = LoginForm()
         self.template = "pages/login.html"
 
     def get(self, request):
@@ -68,14 +68,15 @@ class Logout(TemplateView):
 class Register(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.form = forms.RegisterForm()
+        self.form = RegisterForm()
         self.template = "pages/register.html"
 
     def get(self, request):
         return render(request, self.template, {"form": self.form})
 
+    @method_decorator(csrf_protect)
     def post(self, request):
-        form = forms.RegisterForm(request.POST)
+        form = RegisterForm(request.POST)
         result = self.createUser(form)
         if result[0] == "Success":
             messages.success(request, "Successfully registered!")
@@ -95,13 +96,13 @@ class Register(TemplateView):
             first_name = form.cleaned_data["first_name"]
             last_name = form.cleaned_data["last_name"]
             if password_1 == password_2:
-                user = User.objects.create_user(
+                user = UserModel.objects.create_user(
                     email=email,
                     password=password_1,
                     first_name=first_name,
                     last_name=last_name,
                 )
-                UserProfile.objects.create(user=user)
+                UserProfileModel.objects.create(user=user)
                 return ["Success", user]
             else:
                 return ["Error", "Password do not match."]
@@ -120,7 +121,7 @@ class Register(TemplateView):
 def profile_details(request):
     user = request.user
     if user:
-        profile = UserProfile.objects.get(user=user.id)
+        profile = UserProfileModel.objects.get(user=user.id)
         return render(
             request,
             "components/profile_details.html",
@@ -130,10 +131,32 @@ def profile_details(request):
         return redirect("account:login")
 
 
+class ProfileEdit(TemplateView):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.user = self.request.user
+        self.profile = UserProfileModel.objects.get(user=self.user.id)
+        self.userForm = UserEditForm(initial=self.user.__dict__)
+        self.profileForm = ProfileEditForm(initial=self.profile.__dict__)
+
+    def get(self, request):
+        context = {
+            "user": self.user,
+            "profile": self.profile,
+            "userForm": self.userForm,
+            "profileForm": self.profileForm,
+        }
+        return render(request, "components/profile_edit.html", context)
+
+    @method_decorator(csrf_protect)
+    def post(self, request):
+        pass
+
+
 def profile_edit(request):
     user = request.user
     if user:
-        profile = UserProfile.objects.get(user=user.id)
+        profile = UserProfileModel.objects.get(user=user.id)
         return render(
             request,
             "components/profile_edit.html",
@@ -146,7 +169,7 @@ def profile_edit(request):
 def profile_password(request):
     user = request.user
     if user:
-        profile = UserProfile.objects.get(user=user.id)
+        profile = UserProfileModel.objects.get(user=user.id)
         return render(
             request,
             "components/profile_password.html",
@@ -159,7 +182,7 @@ def profile_password(request):
 def profile_delete(request):
     user = request.user
     if user:
-        profile = UserProfile.objects.get(user=user.id)
+        profile = UserProfileModel.objects.get(user=user.id)
         return render(
             request,
             "components/profile_delete.html",

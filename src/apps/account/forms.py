@@ -1,4 +1,4 @@
-from .models import User, UserProfile
+from .models import UserModel, UserProfileModel
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
@@ -9,7 +9,7 @@ class LoginForm(forms.ModelForm):
     )
 
     class Meta:
-        model = User
+        model = UserModel
         fields = ["email", "password"]
 
 
@@ -24,17 +24,29 @@ class RegisterForm(forms.ModelForm):
     )
 
     class Meta:
-        model = User
+        model = UserModel
         fields = ["email", "password", "first_name", "last_name"]
 
 
-class AccountEditForm(forms.ModelForm):
+class UserEditForm(forms.ModelForm):
     class Meta:
-        model = User
+        model = UserModel
         fields = "__all__"
 
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
+        model = UserProfileModel
         fields = "__all__"
+
+
+class UserCreationForm(UserCreationForm):
+    class Meta:
+        model = UserModel
+        fields = ["email"]
+
+
+class UserChangeForm(UserChangeForm):
+    class Meta:
+        model = UserModel
+        fields = ["email"]
