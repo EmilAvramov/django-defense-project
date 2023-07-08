@@ -12,11 +12,11 @@ header {
 
         .navbar_list {
             height: inherit;
-
+            width: 50%;
             display: flex;
-            gap: 30px;
             justify-content: center;
             align-items: center;
+            margin: 0 auto;
         }
     }
 }

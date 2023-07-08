@@ -171,6 +171,6 @@ def profile_delete(request):
 
 def library(request):
     if request.user:
-        return render(request, "pages/profile.html", {})
+        return render(request, "pages/library.html", {})
     else:
         return redirect("account:login")

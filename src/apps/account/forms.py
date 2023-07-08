@@ -1,4 +1,4 @@
-from .models import User
+from .models import User, UserProfile
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
@@ -28,13 +28,13 @@ class RegisterForm(forms.ModelForm):
         fields = ["email", "password", "first_name", "last_name"]
 
 
-class UserCreationForm(UserCreationForm):
+class AccountEditForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["email"]
+        fields = "__all__"
 
 
-class UserChangeForm(UserChangeForm):
+class ProfileEditForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ["email"]
+        model = UserProfile
+        fields = "__all__"

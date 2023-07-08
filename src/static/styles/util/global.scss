@@ -1,0 +1,19 @@
+
+.nav_li {
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    border: 1px solid black;
+
+    .nav_link {
+        width: 100%;
+        text-decoration: none;
+        font-weight: bold;
+
+        &:visited {
+            color: black;
+        }
+        &:hover {
+            color: red;
+        }
+    }
+}

@@ -1,5 +1,18 @@
 {% extends "../pages/profile.html" %}
 
 {% block child %}
-    <div>Profile Details</div>
+    <div class="details__container">
+        <div class="details_image">
+            {% if profile.image %}
+                <img src="{{profile.image}}" alt="profile img"/>
+            {% else %}
+                <img  src="/static/images/profile.jpg" alt="profile img"/>
+            {% endif %}
+        </div>
+        <div class="details_field">Name: {{user.first_name}} {{user.last_name}}</div>
+        <div class="details_field">Email: {{user.email}}</div>
+        <div class="details_field">Age: {{profile.age|default_if_none:"Not specified"}}</div>
+        <div class="details_field">Gender: {{profile.gender|default_if_none:"Not specified"}}</div>
+        <div class="details_field">Date Joined: {{user.date_joined}}</div>
+    </div>
 {% endblock %}

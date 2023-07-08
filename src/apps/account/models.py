@@ -48,6 +48,7 @@ class UserProfile(models.Model):
         blank=True,
         null=True,
     )
+    image = models.URLField(verbose_name="Profile Picture", blank=True, null=True)
     digimons = models.ManyToManyField("main.Digimon", related_name="digimons")
     bookmarks = models.ManyToManyField(
         "main.Digimon", related_name="bookmarks"
