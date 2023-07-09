@@ -131,12 +131,9 @@ class Register(TemplateView):
 
 @login_required()
 def profile_details(request):
-    user = request.user
-    profile = UserProfileModel.objects.get(user=user.id)
+    profile = UserProfileModel.objects.get(user=request.user.id)
     return render(
-        request,
-        "components/profile_details.html",
-        {"user": user, "profile": profile},
+        request, "components/profile_details.html", {"profile": profile},
     )
 
 
@@ -160,7 +157,6 @@ class ProfileEdit(TemplateView):
             "image": profile.image,
         }
         context = {
-            "user": user,
             "profile": profile,
             "userForm": UserEditForm(initial=userInitial),
             "profileForm": ProfileEditForm(initial=profileInitial),
@@ -178,7 +174,6 @@ class ProfileEdit(TemplateView):
             return redirect("acc_app:profile")
         else:
             context = {
-                "user": user,
                 "profile": profile,
                 "userForm": userForm,
                 "profileForm": profileForm,
@@ -217,10 +212,9 @@ class ProfilePassword(TemplateView):
 
     @method_decorator(login_required)
     def get(self, request):
-        user = request.user
         form = PasswordEditForm()
-        profile = UserProfileModel.objects.get(user=user.id)
-        context = {"user": user, "profile": profile, "form": form}
+        profile = UserProfileModel.objects.get(user=request.user.id)
+        context = {"profile": profile, "form": form}
         return render(request, self.template, context)
 
     @method_decorator(csrf_protect)
@@ -240,7 +234,7 @@ class ProfilePassword(TemplateView):
                 user.save()
                 return redirect("acc_app:profile")
             else:
-                context = {"user": user, "profile": profile, "form": form}
+                context = {"profile": profile, "form": form}
                 return render(request, self.template, context)
 
     def patch(self, request):
@@ -260,10 +254,9 @@ class ProfileDelete(DeleteView):
 
     @method_decorator(login_required)
     def get(self, request):
-        user = request.user
         form = ProfileDeleteForm()
-        profile = UserProfileModel.objects.get(user=user.id)
-        context = {"user": user, "profile": profile, "form": form}
+        profile = UserProfileModel.objects.get(user=request.user.id)
+        context = {"profile": profile, "form": form}
         return render(request, self.template, context)
 
     @method_decorator(csrf_protect)
@@ -274,10 +267,11 @@ class ProfileDelete(DeleteView):
         messages.success(request, "The user is deleted")
         return redirect("/")
 
+    def patch(self, request):
+        return HttpResponseForbidden()
 
-@login_required()
-def library(request):
-    if request.user:
-        return render(request, "pages/library.html", {})
-    else:
-        return redirect("account:login")
+    def put(self, request):
+        return HttpResponseForbidden()
+
+    def delete(self, request):
+        return HttpResponseForbidden()

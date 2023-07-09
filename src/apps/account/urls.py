@@ -35,6 +35,5 @@ urlpatterns = [
             ]
         ),
     ),
-    path("library", views.library, name="library"),
     path("logout", Logout.as_view(), name="logout"),
 ]

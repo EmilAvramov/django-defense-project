@@ -4,6 +4,8 @@ from django.views.generic.base import TemplateView
 from apps.api.decorators.attachFieldLinks import attachFieldLinks
 from apps.api.util import api
 from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
 
 def home(request):
@@ -63,3 +65,37 @@ class Search(TemplateView):
 
 def about(request):
     return render(request, "pages/about.html", {})
+
+
+
+class Library(TemplateView):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+
+    @login_required
+    def get(self, request):
+        return render(request, "pages/library.html", {})
+
+    @login_required
+    def post(self, request):
+        return HttpResponseForbidden()
+
+    def patch(self, request):
+        return HttpResponseForbidden()
+
+    def put(self, request):
+        return HttpResponseForbidden()
+
+    def delete(self, request):
+        return HttpResponseForbidden()
+
+
+
+
+
+@login_required()
+def library(request):
+    if request.user:
+        return render(request, "pages/library.html", {})
+    else:
+        return redirect("account:login")

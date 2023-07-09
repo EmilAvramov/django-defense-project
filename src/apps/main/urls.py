@@ -18,5 +18,6 @@ urlpatterns = [
             ]
         ),
     ),
+    path("library", views.library, name="library"),
     path("about", views.about, name="about"),
 ]
