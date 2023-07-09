@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DeleteView
 from django.shortcuts import redirect
 from .forms import (
     LoginForm,
@@ -7,6 +7,7 @@ from .forms import (
     ProfileEditForm,
     UserEditForm,
     PasswordEditForm,
+    ProfileDeleteForm,
 )
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
@@ -228,10 +229,12 @@ class ProfilePassword(TemplateView):
         profile = UserProfileModel.objects.get(user=user.id)
         form = PasswordEditForm(request.POST)
         if form.is_valid():
-            oldPassword = form.cleaned_data['oldPassword']
-            newPassword = form.cleaned_data['newPassword']
-            newPassword2 = form.cleaned_data['newPassword2']
-            password_correct = authenticate(email=user.email, password=oldPassword)
+            oldPassword = form.cleaned_data["oldPassword"]
+            newPassword = form.cleaned_data["newPassword"]
+            newPassword2 = form.cleaned_data["newPassword2"]
+            password_correct = authenticate(
+                email=user.email, password=oldPassword
+            )
             if password_correct is not None and newPassword == newPassword2:
                 user.set_password(newPassword)
                 user.save()
@@ -250,32 +253,26 @@ class ProfilePassword(TemplateView):
         return HttpResponseForbidden()
 
 
-@login_required()
-def profile_password(request):
-    user = request.user
-    if user:
-        profile = UserProfileModel.objects.get(user=user.id)
-        return render(
-            request,
-            "components/profile_password.html",
-            {"user": user, "profile": profile},
-        )
-    else:
-        return redirect("account:login")
+class ProfileDelete(DeleteView):
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.template = "components/profile_delete.html"
 
-
-@login_required()
-def profile_delete(request):
-    user = request.user
-    if user:
+    @method_decorator(login_required)
+    def get(self, request):
+        user = request.user
+        form = ProfileDeleteForm()
         profile = UserProfileModel.objects.get(user=user.id)
-        return render(
-            request,
-            "components/profile_delete.html",
-            {"user": user, "profile": profile},
-        )
-    else:
-        return redirect("account:login")
+        context = {"user": user, "profile": profile, "form": form}
+        return render(request, self.template, context)
+
+    @method_decorator(csrf_protect)
+    def post(self, request):
+        user = UserModel.objects.get(id=request.user.id)
+        logout(request)
+        user.delete()
+        messages.success(request, "The user is deleted")
+        return redirect("/")
 
 
 @login_required()

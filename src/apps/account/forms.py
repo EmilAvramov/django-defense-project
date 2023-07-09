@@ -56,6 +56,10 @@ class PasswordEditForm(forms.ModelForm):
         fields = ["oldPassword", "newPassword", "newPassword2"]
 
 
+class ProfileDeleteForm(forms.Form):
+    pass
+
+
 class UserCreationForm(UserCreationForm):
     class Meta:
         model = UserModel

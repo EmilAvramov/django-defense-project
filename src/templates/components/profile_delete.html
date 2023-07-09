@@ -1,5 +1,15 @@
-{% extends "../pages/profile.html" %}
-
-{% block child %}
-    <div>Profile Delete</div>
+{% extends "../pages/profile.html" %} {% block child %}
+<form
+	class="profile__delete_form"
+	action="{% url 'acc_app:delete_profile' %}"
+	method="POST"
+>
+	{{ form }}
+	<input
+		type="submit"
+		value="Delete Profile"
+		onclick="return confirm('Are you sure? All added collections will also be deleted. This operation is NOT reversible.')"
+	/>
+	{% csrf_token %}
+</form>
 {% endblock %}
