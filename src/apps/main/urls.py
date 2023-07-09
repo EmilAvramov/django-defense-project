@@ -1,23 +1,27 @@
 from django.urls import path, include
-from . import views
+from .views import Library, Search, home, about
 
 app_name = "main_app"
 
 urlpatterns = [
-    path("", views.home, name="home"),
+    path("", home, name="home"),
     path(
         "search/",
         include(
             [
-                path("", views.Search.as_view(), name="search"),
-                path(
-                    "search/<int:id>",
-                    views.Search.as_view(),
-                    name="search/digimon_by_id",
-                ),
+                path("", Search.as_view(), name="search"),
+                path("<int:id>/", Search.as_view(), name="search",),
             ]
         ),
     ),
-    path("library", views.library, name="library"),
-    path("about", views.about, name="about"),
+    path(
+        "library/",
+        include(
+            [
+                path("", Library.as_view(), name="library"),
+                path("<int:id>/", Library.as_view(), name="library"),
+            ]
+        ),
+    ),
+    path("about", about, name="about"),
 ]

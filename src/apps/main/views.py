@@ -6,6 +6,19 @@ from apps.api.util import api
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from apps.account.models import UserProfileModel
+from .models import (
+    DigimonImage,
+    DigimonAtribute,
+    DigimonDescription,
+    DigimonEvolution,
+    DigimonField,
+    DigimonLevel,
+    DigimonSkill,
+    Digimon,
+)
+from django.db import transaction
+from collections.abc import MutableSequence
 
 
 def home(request):
@@ -29,6 +42,7 @@ class Search(TemplateView):
 
             if data:
                 data = attachFieldLinks(data)
+                request.session["digimon"] = data
                 return render(
                     request, template, {"data": data, "form": self.form},
                 )
@@ -67,18 +81,112 @@ def about(request):
     return render(request, "pages/about.html", {})
 
 
-
 class Library(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
-    @login_required
-    def get(self, request):
-        return render(request, "pages/library.html", {})
+    def get(self, request, id=""):
+        profile = UserProfileModel.objects.get(user=request.user.id)
+        digimons = profile.digimons.all()
+        context = {
+            "profile": profile,
+            "digimons": digimons
+        }
+        return render(request, "pages/library.html", context)
 
-    @login_required
-    def post(self, request):
-        return HttpResponseForbidden()
+    def post(self, request, id=""):
+        data = request.session["digimon"]
+        if data["id"] == id and data["id"]:
+            profile = UserProfileModel.objects.get(user=request.user.id)
+            if self.add_to_DB(data, profile):
+                return redirect("main_app:library")
+        return render(request, "core/error.html")
+
+    @transaction.atomic
+    def add_to_DB(self, data, profile):
+        digimon_data = {
+            "name": data["name"],
+            "antibody": data["xAntibody"],
+            "release_date": data["releaseDate"],
+            "comments": "",
+        }
+        images = [
+            DigimonImage.objects.create(**value) for value in data["images"]
+        ]
+        fields = [
+            DigimonField.objects.create(
+                field_id=value["id"],
+                field_name=value["field"],
+                image=value["image"],
+            )
+            for value in data["fields"]
+        ]
+        attributes = [
+            DigimonAtribute.objects.create(
+                attr_id=value["id"], attr_name=value["attribute"]
+            )
+            for value in data["attributes"]
+        ]
+        descriptions = [
+            DigimonDescription.objects.create(**value)
+            for value in data["descriptions"]
+            if value["language"] == "en_us"
+        ]
+
+        levels = [
+            DigimonLevel.objects.create(
+                level_id=value["id"], level_name=value["level"]
+            )
+            for value in data["levels"]
+        ]
+
+        skills = [
+            DigimonSkill.objects.create(
+                skill_id=value["id"],
+                skill_name=value["skill"],
+                translation=value["translation"],
+                description=value["description"],
+            )
+            for value in data["skills"]
+        ]
+
+        prior_evos = [
+            DigimonEvolution.objects.create(
+                evo_id=value["id"],
+                evo_name=value["digimon"],
+                evo_condition=value["condition"],
+                evo_image=value["image"],
+                evo_link=value["url"],
+            )
+            for value in data["priorEvolutions"]
+            if value["id"]
+        ]
+
+        next_evos = [
+            DigimonEvolution.objects.create(
+                evo_id=value["id"],
+                evo_name=value["digimon"],
+                evo_condition=value["condition"],
+                evo_image=value["image"],
+                evo_link=value["url"],
+            )
+            for value in data["nextEvolutions"]
+            if value["id"]
+        ]
+
+        digimon = Digimon.objects.create(**digimon_data)
+        digimon.images.add(*images)
+        digimon.descriptions.add(*descriptions)
+        digimon.skills.add(*skills)
+        digimon.fields.add(*fields)
+        digimon.attributes.add(*attributes)
+        digimon.levels.add(*levels)
+        digimon.prior_evos.add(*prior_evos)
+        digimon.next_evos.add(*next_evos)
+        digimon.save()
+        profile.digimons.add(digimon)
+        profile.save()
+        return True
 
     def patch(self, request):
         return HttpResponseForbidden()
@@ -88,9 +196,6 @@ class Library(TemplateView):
 
     def delete(self, request):
         return HttpResponseForbidden()
-
-
-
 
 
 @login_required()

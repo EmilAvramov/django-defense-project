@@ -5,7 +5,7 @@
     {% if data.content %}
         {% for digimon in data.content%}
             <div class="search__result_card" data-pos={{digimon.id}}>
-                <a href={% url 'main_app:search/digimon_by_id' digimon.id %}>
+                <a href={% url 'main_app:search' digimon.id %}>
                     <div class="card__name">{{digimon.name}}</div>
                     <img class="card__image" src={{digimon.image}} alt="digimon image"/>
                 </a>
@@ -16,6 +16,19 @@
                 <a class="search__card" href="{% url 'main_app:search' %}">
                     Back to list
                 </a>
+                {% if user.is_authenticated %}
+                    <form
+                    class="profile__delete_form"
+                    action="{% url 'main_app:library' data.id %}"
+                    method="POST"
+                >
+                        <input
+                            type="submit"
+                            value="Add to library"
+                        />
+                        {% csrf_token %}
+                    </form>
+                {% endif %}
                 <div class="results__top">
                     <div class="results__top_left">
                         <div class="search__details_image">
@@ -95,7 +108,7 @@
                             {% for item in data.priorEvolutions%}
                             <div class="evo__item">
                                 {% if item.id %}
-                                    <a href={% url 'main_app:search/digimon_by_id' item.id %}>
+                                    <a href={% url 'main_app:search' item.id %}>
                                         <div>{{item.digimon}}</div>
                                         <img src={{item.image}}/>               
                                     </a>
@@ -109,7 +122,7 @@
                             {% for item in data.nextEvolutions%}
                             <div class="evo__item">
                                 {% if item.id %}
-                                    <a href={% url 'main_app:search/digimon_by_id' item.id %}>
+                                    <a href={% url 'main_app:search' item.id %}>
                                         <div>{{item.digimon}}</div>
                                         <img src={{item.image}}/>  
                                     </a>   
