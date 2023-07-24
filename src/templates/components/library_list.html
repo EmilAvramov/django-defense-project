@@ -1,0 +1,17 @@
+{% extends "pages/library.html" %}
+
+{% block list %}
+    <button>Render</button>
+    <div class="library__list">
+        {% for digimon in digimons %}
+        <div class="library__digimon">
+            {% for image in digimon.images.all %}
+                <img src="{{ image.href }}" alt="Digimon Image">
+            {% endfor %}
+            <h3>Name: {{ digimon.name }}</h3>
+            <p>Release Date: {{ digimon.release_date }}</p>
+            <p>Antibody: {% if digimon.antibody %} Yes {% else %} No {% endif %}</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock list %}

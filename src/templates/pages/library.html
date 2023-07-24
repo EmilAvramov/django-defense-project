@@ -1,4 +1,17 @@
-{% extends "../base.html" %}
+{% extends "base.html" %}
+{% load static %}
+{% load compress %}
+
+{% block htmlhead %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'styles/pages/search.scss' %}" rel="stylesheet">
+    {% endcompress %}
+{% endblock htmlhead %}
+
 {% block content %}
-    <div>library template</div>
+    {% if details_view %}
+        {% block details %} {% endblock %} 
+    {% else %}
+        {% block list %} {% endblock %} 
+    {% endif %}
 {% endblock %}

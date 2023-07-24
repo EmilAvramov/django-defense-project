@@ -5,7 +5,7 @@ from apps.api.decorators.attachFieldLinks import attachFieldLinks
 from apps.api.util import api
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from apps.account.models import UserProfileModel
 from .models import (
     DigimonImage,
@@ -18,9 +18,9 @@ from .models import (
     Digimon,
 )
 from django.db import transaction
-from collections.abc import MutableSequence
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
+from django.db.models import Prefetch
 
 
 def home(request):
@@ -89,9 +89,40 @@ class Library(TemplateView):
 
     @method_decorator(login_required)
     def get(self, request, id=""):
-        profile = UserProfileModel.objects.get(user=request.user.id)
-        digimons = profile.digimons.all()
-        context = {"profile": profile, "digimons": digimons}
+        profile = UserProfileModel.objects.select_related("user").get(
+            user=request.user
+        )
+        if id:
+            digimon = get_object_or_404(
+                Digimon, id=id, userprofilemodel=profile
+            )
+            digimon = Digimon.objects.prefetch_related(
+                Prefetch("images", queryset=DigimonImage.objects.all()),
+                Prefetch("levels", queryset=DigimonLevel.objects.all()),
+                Prefetch("attributes", queryset=DigimonAtribute.objects.all()),
+                Prefetch("fields", queryset=DigimonField.objects.all()),
+                Prefetch(
+                    "descriptions", queryset=DigimonDescription.objects.all()
+                ),
+                Prefetch("skills", queryset=DigimonSkill.objects.all()),
+                Prefetch(
+                    "prior_evos", queryset=DigimonEvolution.objects.all()
+                ),
+                Prefetch("next_evos", queryset=DigimonEvolution.objects.all()),
+            ).get(id=id, userprofilemodel=profile)
+
+            context = {
+                "profile": profile,
+                "digimon": [digimon],
+                "details_view": True,
+            }
+        else:
+            digimons = profile.digimons.prefetch_related("images")
+            context = {
+                "profile": profile,
+                "digimons": digimons,
+                "details_view": False,
+            }
         return render(request, "pages/library.html", context)
 
     @method_decorator(csrf_protect, login_required)
