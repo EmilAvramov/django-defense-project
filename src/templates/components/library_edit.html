@@ -1,1 +1,49 @@
-{% extends "pages/library.html" %}
+<script>
+	function openPopup() {
+		document.getElementById('popup').style.display = 'block';
+	}
+
+	function closePopup() {
+		document.getElementById('popup').style.display = 'none';
+	}
+
+	function submitDescription(digimonId) {
+		const description = document.getElementById('descriptionInput').value;
+		const csrfToken = '{{ csrf_token }}';
+		const url = `/library/${digimonId}/`;
+		fetch(url, {
+			method: 'PATCH',
+			headers: {
+				'X-CSRFToken': csrfToken,
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ description: description }),
+		}).then((response) => {
+			if (response.status === 200) {
+				window.location.reload();
+			} else {
+				window.location.reload();
+				alert('Digimon could not be edited. Please try again.');
+			}
+		});
+	}
+</script>
+
+<div id="popup" class="popup">
+	<div class="popup-content">
+		<span class="close-btn" onclick="closePopup()">&times;</span>
+		<h2>Enter Description</h2>
+		<textarea
+			id="descriptionInput"
+			rows="4"
+			cols="50"
+			placeholder="Enter your description here..."
+		></textarea>
+		<div class="buttons">
+			<button onclick="submitDescription({{digimon.id}})">OK</button>
+			<button onclick="closePopup()">Cancel</button>
+		</div>
+	</div>
+</div>
+
+<button onclick="openPopup()">Edit Comments</button>

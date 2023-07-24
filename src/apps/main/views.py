@@ -20,7 +20,7 @@ from .models import (
 from django.db import transaction
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
-from django.db.models import Prefetch
+from json import loads
 
 
 def home(request):
@@ -222,8 +222,18 @@ class Library(TemplateView):
         profile.save()
         return True
 
-    def patch(self, request):
-        return HttpResponseForbidden()
+    def patch(self, request, id=""):
+        try:
+            digimon = Digimon.objects.get(id=id)
+        except Digimon.DoesNotExist:
+            return JsonResponse({"error": "Digimon not found"}, status=404)
+        try:
+            comments = loads(request.body).get("description", None)
+            digimon.comments = comments
+            digimon.save()
+        except:
+            return JsonResponse({"message": "Something went wrong"}, status=422)
+        return JsonResponse({"message": "Successfully updated digimon"}, status=200)
 
     def put(self, request):
         return HttpResponseForbidden()

@@ -9,7 +9,8 @@
         <h3>Name: {{ digimon.name }}</h3>
         <p>Release Date: {{ digimon.release_date }}</p>
         <p>Antibody: {% if digimon.antibody %} Yes {% else %} No {% endif %}</p>
-        <a href={% url 'main_app:library' digimon.id %}><button>Add Comments</button></a>
+        <p>Comments: {{digimon.comments|default:"--"}}</p>
+        {% include "components/library_edit.html" with digimon=digimon %}
         {% include "components/library_delete.html" with digimon=digimon %}
     </div>
     {% endfor %}
