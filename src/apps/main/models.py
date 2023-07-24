@@ -8,17 +8,17 @@ class DigimonImage(models.Model):
 
 class DigimonLevel(models.Model):
     level_id = models.IntegerField(verbose_name="id")
-    level_name = models.CharField(verbose_name="level", max_length=50)
+    level_name = models.CharField(verbose_name="level", max_length=100)
 
 
 class DigimonAtribute(models.Model):
     attr_id = models.IntegerField(verbose_name="id")
-    attr_name = models.CharField(verbose_name="attribute", max_length=50)
+    attr_name = models.CharField(verbose_name="attribute", max_length=100)
 
 
 class DigimonField(models.Model):
     field_id = models.IntegerField(verbose_name="id")
-    field_name = models.CharField(verbose_name="field", max_length=50)
+    field_name = models.CharField(verbose_name="field", max_length=100)
     image = models.URLField(verbose_name="image")
 
 
@@ -30,21 +30,21 @@ class DigimonDescription(models.Model):
 
 class DigimonSkill(models.Model):
     skill_id = models.IntegerField(verbose_name="id")
-    skill_name = models.CharField(verbose_name="skill", max_length=100)
-    translation = models.CharField(verbose_name="translation", max_length=100)
+    skill_name = models.CharField(verbose_name="skill", max_length=200)
+    translation = models.CharField(verbose_name="translation", max_length=200)
     description = models.TextField(verbose_name="description")
 
 
 class DigimonEvolution(models.Model):
     evo_id = models.IntegerField(verbose_name="id")
-    evo_name = models.CharField(verbose_name="digimon", max_length=100)
-    evo_condition = models.CharField(verbose_name="condition", max_length=100)
+    evo_name = models.CharField(verbose_name="digimon", max_length=200)
+    evo_condition = models.CharField(verbose_name="condition", max_length=200)
     evo_image = models.URLField(verbose_name="image")
     evo_link = models.URLField(verbose_name="url")
 
 
 class Digimon(models.Model):
-    name = models.CharField(verbose_name="Name", max_length=100)
+    name = models.CharField(verbose_name="Name", max_length=200)
     antibody = models.BooleanField(verbose_name="xAntibody")
     images = models.ManyToManyField(DigimonImage, related_name="images")
     levels = models.ManyToManyField(DigimonLevel, related_name="levels")
