@@ -37,3 +37,147 @@
 button {
 	margin-left: 10px;
 }
+
+/* Style for the details container */
+.details-container {
+	padding: 20px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	background-color: #ffffff;
+	margin: 20px auto; /* Add some margin to center the details page */
+	max-width: 800px; /* Limit the width to prevent overflow */
+	overflow-y: auto; /* Add vertical scrollbar when content exceeds the height */
+	max-height: calc(100vh - 200px); /* Limit the height to prevent overflow */
+	background-color: #f9f9f9; /* Light gray background */
+	border: 1px solid #ddd; /* Add a subtle border */
+	border-radius: 8px; /* Rounded corners */
+	margin: 20px auto; /* Add some margin to center the details page */
+	max-width: 800px; /* Limit the width to prevent overflow */
+	overflow-y: auto; /* Add vertical scrollbar when content exceeds the height */
+	max-height: calc(100vh - 200px); /* Limit the height to prevent overflow */
+}
+
+/* Style for the header section containing the name and image */
+.details-header {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.details-header h1 {
+	margin-top: 0;
+}
+
+.details-header img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Style for each section containing different information */
+.details-section {
+	margin-bottom: 20px;
+}
+
+.details-section h2 {
+	margin-top: 0;
+	border-bottom: 2px solid #333;
+	padding-bottom: 5px;
+	background-color: #eee;
+	padding: 10px 15px;
+	border-radius: 5px;
+	font-weight: bold; /* Add bold font weight to section titles */
+}
+
+/* Style for the field list */
+.field-list {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	padding: 0;
+}
+
+.field-list li {
+	flex: 1 1 100px;
+	margin: 5px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.field-list img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Style for the evolution list */
+.evolution-list {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	padding: 0;
+}
+
+.evolution-list li {
+	flex: 1 1 200px;
+	margin: 10px;
+	text-align: center;
+}
+
+/* Style for the evo image */
+.evolution-list img {
+	max-width: 100%;
+	height: auto;
+	/* Adjust image size to be 5-10% smaller */
+	max-width: 90%;
+	background-color: #f5f5f5; /* Slightly darker gray background for evolution lists */
+	padding: 10px; /* Add padding to evolution lists */
+	border-radius: 5px; /* Rounded corners for evolution lists */
+}
+
+/* Style for the evolution box */
+.evolution-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #fff; /* White background for each evolution box */
+	padding: 10px; /* Add padding to evolution boxes */
+	border: 1px solid #ddd; /* Add a subtle border to each evolution box */
+	border-radius: 5px; /* Rounded corners for each evolution box */
+
+	p.skill-name {
+		font-weight: bold;
+	}
+}
+
+/* Style for the evolution name */
+.evolution-name {
+	max-width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-bottom: 5px;
+}
+
+/* Style for the evolution condition */
+.evolution-condition {
+	max-width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.details-section {
+	margin-bottom: 20px;
+
+	/* Add space below section titles (headers) */
+	h2 {
+		margin-bottom: 10px;
+	}
+
+	/* Add space between each item within the section */
+	ul {
+		li {
+			margin-bottom: 10px;
+		}
+	}
+}
