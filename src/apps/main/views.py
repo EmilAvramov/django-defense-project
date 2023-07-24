@@ -3,7 +3,7 @@ from . import forms
 from django.views.generic.base import TemplateView
 from apps.api.decorators.attachFieldLinks import attachFieldLinks
 from apps.api.util import api
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from apps.account.models import UserProfileModel
@@ -93,27 +93,29 @@ class Library(TemplateView):
             user=request.user
         )
         if id:
-            digimon = get_object_or_404(
-                Digimon, id=id, userprofilemodel=profile
-            )
-            digimon = Digimon.objects.prefetch_related(
-                Prefetch("images", queryset=DigimonImage.objects.all()),
-                Prefetch("levels", queryset=DigimonLevel.objects.all()),
-                Prefetch("attributes", queryset=DigimonAtribute.objects.all()),
-                Prefetch("fields", queryset=DigimonField.objects.all()),
-                Prefetch(
-                    "descriptions", queryset=DigimonDescription.objects.all()
-                ),
-                Prefetch("skills", queryset=DigimonSkill.objects.all()),
-                Prefetch(
-                    "prior_evos", queryset=DigimonEvolution.objects.all()
-                ),
-                Prefetch("next_evos", queryset=DigimonEvolution.objects.all()),
-            ).get(id=id, userprofilemodel=profile)
+            try:
+                digimon = profile.digimons.prefetch_related(
+                    "images",
+                    "levels",
+                    "attributes",
+                    "fields",
+                    "descriptions",
+                    "skills",
+                    "prior_evos",
+                    "next_evos",
+                ).get(id=id)
+            except Digimon.DoesNotExist:
+                return render(
+                    request,
+                    "core/error.html",
+                    {
+                        "error_message": f"No digimon with ID {id} in your collection."
+                    },
+                )
 
             context = {
                 "profile": profile,
-                "digimon": [digimon],
+                "digimon": digimon,
                 "details_view": True,
             }
         else:
@@ -226,5 +228,22 @@ class Library(TemplateView):
     def put(self, request):
         return HttpResponseForbidden()
 
-    def delete(self, request):
-        return HttpResponseForbidden()
+    @method_decorator(csrf_protect, login_required)
+    def delete(self, request, id=""):
+        try:
+            digimon = Digimon.objects.get(id=id)
+
+            digimon.images.clear()
+            digimon.levels.clear()
+            digimon.attributes.clear()
+            digimon.fields.clear()
+            digimon.descriptions.clear()
+            digimon.skills.clear()
+            digimon.prior_evos.clear()
+            digimon.next_evos.clear()
+
+            digimon.delete()
+        except Digimon.DoesNotExist:
+            return JsonResponse({"error": "Digimon not found"}, status=404)
+
+        return JsonResponse({"message": "Successfully deleted"}, status=204)
