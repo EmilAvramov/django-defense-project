@@ -163,7 +163,7 @@ class ProfileEdit(TemplateView):
         }
         return render(request, self.template, context)
 
-    @method_decorator(csrf_protect)
+    @method_decorator(csrf_protect, login_required)
     def post(self, request):
         user = request.user
         profile = UserProfileModel.objects.get(user=user.id)
@@ -217,7 +217,7 @@ class ProfilePassword(TemplateView):
         context = {"profile": profile, "form": form}
         return render(request, self.template, context)
 
-    @method_decorator(csrf_protect)
+    @method_decorator(csrf_protect, login_required)
     def post(self, request):
         user = request.user
         profile = UserProfileModel.objects.get(user=user.id)
@@ -259,7 +259,7 @@ class ProfileDelete(DeleteView):
         context = {"profile": profile, "form": form}
         return render(request, self.template, context)
 
-    @method_decorator(csrf_protect)
+    @method_decorator(csrf_protect, login_required)
     def post(self, request):
         user = UserModel.objects.get(id=request.user.id)
         logout(request)

@@ -19,6 +19,8 @@ from .models import (
 )
 from django.db import transaction
 from collections.abc import MutableSequence
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 
 
 def home(request):
@@ -85,15 +87,14 @@ class Library(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
 
+    @method_decorator(login_required)
     def get(self, request, id=""):
         profile = UserProfileModel.objects.get(user=request.user.id)
         digimons = profile.digimons.all()
-        context = {
-            "profile": profile,
-            "digimons": digimons
-        }
+        context = {"profile": profile, "digimons": digimons}
         return render(request, "pages/library.html", context)
 
+    @method_decorator(csrf_protect, login_required)
     def post(self, request, id=""):
         data = request.session["digimon"]
         if data["id"] == id and data["id"]:
@@ -196,11 +197,3 @@ class Library(TemplateView):
 
     def delete(self, request):
         return HttpResponseForbidden()
-
-
-@login_required()
-def library(request):
-    if request.user:
-        return render(request, "pages/library.html", {})
-    else:
-        return redirect("account:login")
