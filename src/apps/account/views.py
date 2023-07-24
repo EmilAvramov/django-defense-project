@@ -26,7 +26,8 @@ class Login(TemplateView):
         self.template = "pages/login.html"
 
     def get(self, request):
-        return render(request, self.template, {"form": self.form})
+        context = {"form": self.form}
+        return render(request, self.template, context)
 
     @method_decorator(csrf_protect)
     def post(self, request):
@@ -40,10 +41,8 @@ class Login(TemplateView):
                 return redirect(next)
             return redirect("main_app:search")
         else:
-            error = "Wrong credentials."
-            return render(
-                request, self.template, {"form": self.form, "error": error}
-            )
+            context = {"form": self.form, "error": "Wrong credentials."}
+            return render(request, self.template, context)
 
     def patch(self, request):
         return HttpResponseForbidden()
@@ -94,9 +93,8 @@ class Register(TemplateView):
             login(request, result[1])
             return redirect("main_app:search")
         else:
-            return render(
-                request, self.template, {"form": self.form, "error": result[1]}
-            )
+            context = {"form": self.form, "error": result[1]}
+            return render(request, self.template, context)
 
     @transaction.atomic
     def createUser(self, form):

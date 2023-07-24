@@ -23,6 +23,16 @@ from django.views.decorators.csrf import csrf_protect
 from json import loads
 
 
+messages = {
+    "not_found": "Digimon not found in collection.",
+    "not_added": "Was unable to add the digimon to your collection.",
+    "updated": "Successfully updated digimon.",
+    "deleted": "Successfully deleted.",
+    "server_error": "An error occurred. Please try again.",
+    "no_data": "Nothing found for your search query.",
+}
+
+
 def home(request):
     return render(request, "pages/home.html", {})
 
@@ -42,7 +52,7 @@ class Search(TemplateView):
             error = response.get("error")
             template = response.get("template")
 
-            if data:
+            if data and error is False:
                 data = attachFieldLinks(data)
                 request.session["digimon"] = data
                 return render(
@@ -50,20 +60,24 @@ class Search(TemplateView):
                 )
             else:
                 return render(
-                    request, template, {"form": self.form, "error": error}
+                    request,
+                    template,
+                    {"error_message": messages["no_data"]},
                 )
         else:
             response = api.call(data_type, self.params, None, None)
             data = response.get("data")
             error = response.get("error")
             template = response.get("template")
-            if data:
+            if data and error is False:
                 return render(
                     request, template, {"data": data, "form": self.form},
                 )
             else:
                 return render(
-                    request, template, {"form": self.form, "error": error}
+                    request,
+                    template,
+                    {"error_message": messages["no_data"]},
                 )
 
     def post(self, request):
@@ -108,9 +122,7 @@ class Library(TemplateView):
                 return render(
                     request,
                     "core/error.html",
-                    {
-                        "error_message": f"No digimon with ID {id} in your collection."
-                    },
+                    {"error_message": messages["not_found"]},
                 )
 
             context = {
@@ -134,7 +146,50 @@ class Library(TemplateView):
             profile = UserProfileModel.objects.get(user=request.user.id)
             if self.add_to_DB(data, profile):
                 return redirect("main_app:library")
-        return render(request, "core/error.html")
+        return render(
+            request,
+            "core/error.html",
+            {"error_message": messages["not_added"]},
+        )
+
+    @method_decorator(csrf_protect, login_required)
+    def patch(self, request, id=""):
+        try:
+            digimon = Digimon.objects.get(id=id)
+        except Digimon.DoesNotExist:
+            return render(
+                request,
+                "core/error.html",
+                {"error_message": messages["not_found"]},
+            )
+
+        comments = loads(request.body).get("description", None)
+        digimon.comments = comments
+        digimon.save()
+        return JsonResponse({"message": messages["updated"]}, status=200)
+
+    def put(self, request):
+        return HttpResponseForbidden()
+
+    @method_decorator(csrf_protect, login_required)
+    def delete(self, request, id=""):
+        try:
+            digimon = Digimon.objects.get(id=id)
+
+            if self.delete_from_DB(digimon):
+                return JsonResponse(
+                    {"message": messages["deleted"]}, status=204
+                )
+            return JsonResponse(
+                {"message": messages["server_error"]}, status=500
+            )
+
+        except Digimon.DoesNotExist:
+            return render(
+                request,
+                "core/error.html",
+                {"error_message": messages["not_found"]},
+            )
 
     @transaction.atomic
     def add_to_DB(self, data, profile):
@@ -222,27 +277,9 @@ class Library(TemplateView):
         profile.save()
         return True
 
-    def patch(self, request, id=""):
+    @transaction.atomic
+    def delete_from_DB(self, digimon):
         try:
-            digimon = Digimon.objects.get(id=id)
-        except Digimon.DoesNotExist:
-            return JsonResponse({"error": "Digimon not found"}, status=404)
-        try:
-            comments = loads(request.body).get("description", None)
-            digimon.comments = comments
-            digimon.save()
-        except:
-            return JsonResponse({"message": "Something went wrong"}, status=422)
-        return JsonResponse({"message": "Successfully updated digimon"}, status=200)
-
-    def put(self, request):
-        return HttpResponseForbidden()
-
-    @method_decorator(csrf_protect, login_required)
-    def delete(self, request, id=""):
-        try:
-            digimon = Digimon.objects.get(id=id)
-
             digimon.images.clear()
             digimon.levels.clear()
             digimon.attributes.clear()
@@ -253,7 +290,6 @@ class Library(TemplateView):
             digimon.next_evos.clear()
 
             digimon.delete()
-        except Digimon.DoesNotExist:
-            return JsonResponse({"error": "Digimon not found"}, status=404)
-
-        return JsonResponse({"message": "Successfully deleted"}, status=204)
+            return True
+        except Exception:
+            return False
