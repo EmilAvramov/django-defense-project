@@ -9,9 +9,11 @@
 {% endblock htmlhead %}
 
 {% block content %}
-    {% if details_view %}
-        {% block details %} {% endblock %} 
-    {% else %}
-        {% block list %} {% endblock %} 
-    {% endif %}
+    <section class="library__main">
+        {% if details_view %}
+            {% include "components/library_details.html" with digimon=digimon %}
+        {% else %}
+            {% include "components/library_list.html" with digimons=digimons %}
+        {% endif %}
+    </section>
 {% endblock %}

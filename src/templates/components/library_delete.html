@@ -1,0 +1,26 @@
+<script>
+	const csrfToken = '{{ csrf_token }}';
+
+	function deleteDigimon(digimonId) {
+		const confirmation = confirm(
+			'Are you sure? This operation is not reversible.'
+		);
+		if (confirmation) {
+			fetch(`/library/${digimonId}/`, {
+				method: 'DELETE',
+				headers: {
+					'X-CSRFToken': csrfToken,
+					'Content-Type': 'application/json',
+				},
+			}).then((response) => {
+				if (response.status === 204) {
+					window.location.reload();
+				} else {
+          window.alert("Something went wrong, please refresh the page and try again.")
+        }
+			});
+		}
+	}
+</script>
+
+<button onclick="deleteDigimon({{digimon.id}})">Delete From Collection</button>
