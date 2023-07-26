@@ -88,23 +88,23 @@
 				}
 			}
 		}
-	}
 
-    #load_more__btn {
-        padding: 0.5rem 1rem;
-        background-color: #246d87;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin-bottom: 1rem;
-        width: 15%;
-
-        &:hover {
-            background-color: #165268;
+        #load_more__btn {
+            padding: 0.5rem 1rem;
+            background-color: #246d87;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 1rem 0;
+            width: 15%;
+    
+            &:hover {
+                background-color: #165268;
+            }
         }
-    }
+	}
 }
 
 .search__result_details {

@@ -19,10 +19,10 @@
         </form>
         <section class="search__results">
             {% block child %} {% endblock %} 
+            {% if nextPage %}
+                <button id="load_more__btn" data-url="{{nextPage}}">Load More</button>
+            {% endif %}
         </section>
-        {% if nextPage %}
-            <button id="load_more__btn" data-url="{{nextPage}}">Load More</button>
-        {% endif %}
         </div>
     </div>
 
