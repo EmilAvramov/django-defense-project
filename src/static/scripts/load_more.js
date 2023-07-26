@@ -26,16 +26,16 @@ document.addEventListener('DOMContentLoaded', function () {
 					var items = data.content;
 					var fragment = document.createDocumentFragment();
 
-					items.forEach(function (item) {
-						var resultItem = document.createElement('div');
-						resultItem.innerHTML = `<div class="search__result_card" data-pos="${item.id}">
-										<a href="{% url 'main_app:search' ${item.id} %}">
-										  <div class="card__name">${item.name}</div>
-										  <img class="card__image" src="${item.image}" alt="digimon image"/>
-										</a>
-									  </div>`;
-						fragment.appendChild(resultItem);
-					});
+                    items.forEach(function (item) {
+                        var resultItem = document.createElement('div');
+                        resultItem.innerHTML = `<div class="search__result_card" data-pos="${item.id}">
+                                        <a href="/search/${item.id}/">
+                                          <div class="card__name">${item.name}</div>
+                                          <img class="card__image" src="${item.image}" alt="digimon image"/>
+                                        </a>
+                                      </div>`;
+                        fragment.appendChild(resultItem);
+                    });
 
 					searchResults.innerHTML = '';
 					searchResults.appendChild(fragment);
