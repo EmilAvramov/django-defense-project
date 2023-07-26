@@ -1,6 +1,7 @@
 .search__container {
-	width: 100vw;
-	height: 85vh;
+	height: 100%;
+	margin: 0 auto;
+	max-height: calc(100vh - 200px);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -49,7 +50,7 @@
 		align-items: center;
 		flex-wrap: wrap;
 		gap: 0.1rem;
-		overflow: scroll;
+		overflow: auto;
 
 		.search__result_card {
 			width: 20vw;
@@ -91,18 +92,12 @@
 
         #load_more__btn {
             padding: 0.5rem 1rem;
-            background-color: #246d87;
-            color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             margin: 1rem 0;
             width: 15%;
-    
-            &:hover {
-                background-color: #165268;
-            }
         }
 	}
 }

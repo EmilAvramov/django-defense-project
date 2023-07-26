@@ -1,11 +1,11 @@
-<div class="details-container">
-    <div class="details-header">
+<div class="details__container">
+    <div class="details__header">
         <h1>{{ digimon.name }}</h1>
         <img src="{{ digimon.images.first.href }}" alt="{{ digimon.name }}">
     </div>
 
-    <div class="details-content">
-        <div class="details-section">
+    <div class="details__content">
+        <div class="details__section">
             <h2>General Information</h2>
             {% if digimon.antibody %}
                 <p>Antibody: Yes</p>    
@@ -15,7 +15,7 @@
             <p>Release Date: {{ digimon.release_date }}</p>
         </div>
 
-        <div class="details-section">
+        <div class="details__section">
             <h2>Levels</h2>
             <ul>
                 {% for level in digimon.levels.all %}
@@ -24,7 +24,7 @@
             </ul>
         </div>
 
-        <div class="details-section">
+        <div class="details__section">
             <h2>Attributes</h2>
             <ul>
                 {% for attribute in digimon.attributes.all %}
@@ -33,9 +33,9 @@
             </ul>
         </div>
 
-        <div class="details-section">
+        <div class="details__section">
             <h2>Fields</h2>
-            <ul class="field-list">
+            <ul class="field__list">
                 {% for field in digimon.fields.all %}
                     <li>
                         <img src="{{ field.image }}" alt="{{ field.field_name }}">
@@ -45,7 +45,7 @@
             </ul>
         </div>
 
-        <div class="details-section">
+        <div class="details__section">
             <h2>Descriptions</h2>
             <ul>
                 {% for description in digimon.descriptions.all %}
@@ -58,23 +58,23 @@
             </ul>
         </div>
 
-        <div class="details-section">
+        <div class="details__section">
             <h2>Skills</h2>
             <ul>
                 {% for skill in digimon.skills.all %}
                     <li>
-                        <p class="skill-name"><strong>{{ skill.skill_name }}</strong></p>
+                        <p class="skill__name"><strong>{{ skill.skill_name }}</strong></p>
                         <p>{{ skill.description }}</p>
                     </li>
                 {% endfor %}
             </ul>
         </div>
 
-        <div class="details-section">
+        <div class="details__section">
             <h2>Prior Evolutions</h2>
-            <ul class="evolution-list">
+            <ul class="evolution__list">
                 {% for prior_evo in digimon.prior_evos.all %}
-                    <li class="evolution-box">
+                    <li class="evolution__box">
                         <a href="{% url 'main_app:search' prior_evo.evo_id %}">
                             <img src="{{ prior_evo.evo_image }}" alt="{{ prior_evo.evo_name }}">
                         </a>
@@ -87,11 +87,11 @@
             </ul>
         </div>
 
-        <div class="details-section">
+        <div class="details__section">
             <h2>Next Evolutions</h2>
-            <ul class="evolution-list">
+            <ul class="evolution__list">
                 {% for next_evo in digimon.next_evos.all %}
-                    <li class="evolution-box">
+                    <li class="evolution__box">
                         <a href="{% url 'main_app:search' next_evo.evo_id %}">
                             <img src="{{ next_evo.evo_image }}" alt="{{ next_evo.evo_name }}">
                         </a>

@@ -18,7 +18,16 @@
     }
 }
 
-.edit-button {
+.grey__button {
+    background-color: #646869;
+    color: #fff;
+
+    &:hover {
+        background-color: #3f4141;
+      }
+}
+
+.blue__button {
     background-color: #246d87;
     color: #fff;
 
@@ -27,7 +36,7 @@
       }
 }
 
-.delete-button {
+.delete__button {
     background-color: #921d2d;
     color: #fff;
 

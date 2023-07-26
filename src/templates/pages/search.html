@@ -11,17 +11,10 @@
 
 {% block content %}
     <div class="search__container">
-        <h2 class="search__heading">
-            Please enter a digimon name or ID below
-        </h2>
-        <form class="search__form" action="{% url 'main_app:search' %}" method="GET">
-            {{ form }}
-            <input type="submit" value="Submit">
-        </form>
         <section class="search__results">
             {% block child %} {% endblock %} 
             {% if nextPage %}
-                <button id="load_more__btn" data-url="{{nextPage}}">Load More</button>
+                <button id="load_more__btn" class="blue__button" data-url="{{nextPage}}">Load More</button>
             {% endif %}
         </section>
         </div>

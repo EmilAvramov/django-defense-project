@@ -3,6 +3,13 @@
 {% block child %}
 
     {% if data.content %}
+        <h2 class="search__heading">
+            Please enter a digimon name or ID below
+        </h2>
+        <form class="search__form" action="{% url 'main_app:search' %}" method="GET">
+            {{ form }}
+            <input type="submit" value="Submit">
+        </form>
         {% for digimon in data.content%}
             {% if digimon.id %}
                 <div class="search__result_card" data-pos={{digimon.id}}>
@@ -18,8 +25,25 @@
             {% endif %}
         {% endfor %}
     {% else %}
-        <div class="details-container">
-            <div class="details-header">
+        <div class="details__container">
+            <a class="grey__button" href="{% url 'main_app:search' %}">
+                Back to list
+            </a>
+            {% if user.is_authenticated %}
+                <form
+                class="library__add_form"
+                action="{% url 'main_app:library' data.id %}"
+                method="POST"
+            >
+                    <input
+                        type="submit"
+                        value="Add to library"
+                        class="blue__button"
+                    />
+                    {% csrf_token %}
+                </form>
+            {% endif %}
+            <div class="details__header">
                 <h1>{{ data.name }}</h1>
                 {% if data.images.0.href %}
                     <img src="{{ data.images.0.href }}" alt="{{ data.name }}">
@@ -28,8 +52,8 @@
                 {% endif %}
             </div>
         
-            <div class="details-content">
-                <div class="details-section">
+            <div class="details__content">
+                <div class="details__section">
                     <h2>General Information</h2>
                     {% if data.xAntibody %}
                         <p>Antibody: Yes</p>    
@@ -39,7 +63,7 @@
                     <p>Release Date: {{ data.releaseDate|default:"--" }}</p>
                 </div>
         
-                <div class="details-section">
+                <div class="details__section">
                     <h2>Levels</h2>
                     <ul>
                         {% for item in data.levels %}
@@ -48,7 +72,7 @@
                     </ul>
                 </div>
         
-                <div class="details-section">
+                <div class="details__section">
                     <h2>Attributes</h2>
                     <ul>
                         {% for item in data.attributes %}
@@ -57,9 +81,9 @@
                     </ul>
                 </div>
         
-                <div class="details-section">
+                <div class="details__section">
                     <h2>Fields</h2>
-                    <ul class="field-list">
+                    <ul class="field__list">
                         {% for item in data.fields %}
                             <li>
                                 <img src="{{item.href}}" alt="{{item.field}}">
@@ -69,7 +93,7 @@
                     </ul>
                 </div>
         
-                <div class="details-section">
+                <div class="details__section">
                     <h2>Descriptions</h2>
                     <ul>
                         {% for item in data.descriptions %}
@@ -84,25 +108,25 @@
                     </ul>
                 </div>
         
-                <div class="details-section">
+                <div class="details__section">
                     <h2>Skills</h2>
                     <ul>
                         {% for item in data.skills %}
                             <li>
-                                <p class="skill-name"><strong>{{item.skill}}</strong></p>
+                                <p class="skill__name"><strong>{{item.skill}}</strong></p>
                                 <p>{{ item.description|default:"--" }}</p>
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
         
-                <div class="details-section">
+                <div class="details__section">
                     {% if data.priorEvolutions %}
                         <h2>Prior Evolutions</h2>
-                        <ul class="evolution-list">
+                        <ul class="evolution__list">
                             {% for item in data.priorEvolutions%}
                                 {% if item.id %}
-                                    <li class="evolution-box">
+                                    <li class="evolution__box">
                                             <a href="{% url 'main_app:search' item.id %}">
                                                 {% if item.image %}
                                                     <img src="{{ item.image }}" alt="{{ item.digimon }}">
@@ -121,13 +145,13 @@
                     {% endif %}
                 </div>
         
-                <div class="details-section">
+                <div class="details__section">
                     {% if data.nextEvolutions %}
                         <h2>Next Evolutions</h2>
-                        <ul class="evolution-list">
+                        <ul class="evolution__list">
                             {% for item in data.nextEvolutions%}
                                 {% if item.id %}
-                                    <li class="evolution-box">
+                                    <li class="evolution__box">
                                             <a href="{% url 'main_app:search' item.id %}">
                                                 {% if item.image %}
                                                     <img src="{{ item.image }}" alt="{{ item.digimon }}">
