@@ -19,7 +19,16 @@
         </form>
         <section class="search__results">
             {% block child %} {% endblock %} 
+        </section>
+        {% if nextPage %}
+            <button id="load_more__btn" data-url="{{nextPage}}">Load More</button>
+        {% endif %}
         </div>
     </div>
+
+    <script>
+        var csrfToken = "{{ csrf_token }}";
+    </script>
+    <script src="{% static 'scripts/load_more.js' %}"></script>
 
 {% endblock %}

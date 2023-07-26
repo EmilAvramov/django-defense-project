@@ -21,6 +21,7 @@ from django.db import transaction
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from json import loads
+from django.http import JsonResponse
 
 
 messages = {
@@ -46,8 +47,10 @@ class Search(TemplateView):
     def get(self, request, id=""):
         data_type = "digimon"
         query = request.GET.get("query", None)
+        nextPage = request.GET.get("nextPage", None)
+
         if id or query:
-            response = api.call(data_type, self.params, query, id)
+            response = api.call(data_type, self.params, query, id, None)
             data = response.get("data")
             error = response.get("error")
             template = response.get("template")
@@ -60,24 +63,41 @@ class Search(TemplateView):
                 )
             else:
                 return render(
-                    request,
-                    template,
-                    {"error_message": messages["no_data"]},
+                    request, template, {"error_message": messages["no_data"]},
                 )
         else:
-            response = api.call(data_type, self.params, None, None)
+            if nextPage:
+                response = api.call(data_type, None, None, None, nextPage)
+            else:
+                response = api.call(data_type, self.params, None, None, None)
             data = response.get("data")
             error = response.get("error")
             template = response.get("template")
+            print(data)
             if data and error is False:
-                return render(
-                    request, template, {"data": data, "form": self.form},
-                )
-            else:
+                if nextPage:
+                    request.session["digimons"] += data["content"]
+                    data["content"] = request.session["digimons"]
+                else:
+                    request.session["digimons"] = data["content"]
+
+                print(data["pageable"]["nextPage"])
+
+                if nextPage:
+                    return JsonResponse(data)
+
                 return render(
                     request,
                     template,
-                    {"error_message": messages["no_data"]},
+                    {
+                        "data": data,
+                        "nextPage": data["pageable"]["nextPage"],
+                        "form": self.form,
+                    },
+                )
+            else:
+                return render(
+                    request, template, {"error_message": messages["no_data"]},
                 )
 
     def post(self, request):

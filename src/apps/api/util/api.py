@@ -18,14 +18,17 @@ def compileQuery(data_type, query="", id=""):
     return url
 
 
-def call(data_type, params={}, query="", id=""):
+def call(data_type, params={}, query="", id="", nextPage=None):
     error = False
     headers = {}
 
     try:
-        url = compileQuery(data_type, query, id)
+        if nextPage:
+            data = get(nextPage, headers=headers)
+        else:
+            url = compileQuery(data_type, query, id)
+            data = get(url, headers=headers, params=params)
 
-        data = get(url, headers=headers, params=params)
         if data:
             data = data.json()
             return {
