@@ -4,135 +4,149 @@
 
     {% if data.content %}
         {% for digimon in data.content%}
-            <div class="search__result_card" data-pos={{digimon.id}}>
-                <a href={% url 'main_app:search' digimon.id %}>
-                    <div class="card__name">{{digimon.name}}</div>
-                    <img class="card__image" src={{digimon.image}} alt="digimon image"/>
-                </a>
-            </div>
+            {% if digimon.id %}
+                <div class="search__result_card" data-pos={{digimon.id}}>
+                    <a href={% url 'main_app:search' digimon.id %}>
+                        <div class="card__name">{{digimon.name}}</div>
+                        {% if digimon.image %}
+                            <img class="card__image" src={{digimon.image}} alt="digimon image"/>
+                        {% else %}
+                            <img  src="/static/images/digimon_placeholder.jpg" alt="placeholder img"/>
+                        {% endif %}
+                    </a>
+                </div>
+            {% endif %}
         {% endfor %}
     {% else %}
-            <div class="search__result_details" data-id={{data.id}}>
-                <a class="search__card" href="{% url 'main_app:search' %}">
-                    Back to list
-                </a>
-                {% if user.is_authenticated %}
-                    <form
-                    class="profile__delete_form"
-                    action="{% url 'main_app:library' data.id %}"
-                    method="POST"
-                >
-                        <input
-                            type="submit"
-                            value="Add to library"
-                        />
-                        {% csrf_token %}
-                    </form>
+        <div class="details-container">
+            <div class="details-header">
+                <h1>{{ data.name }}</h1>
+                {% if data.images.0.href %}
+                    <img src="{{ data.images.0.href }}" alt="{{ data.name }}">
+                {% else %}
+                    <img  src="/static/images/digimon_placeholder.jpg" alt="placeholder img"/>
                 {% endif %}
-                <div class="results__top">
-                    <div class="results__top_left">
-                        <div class="search__details_image">
-                            <img src={{data.images.0.href}}/>
-                        </div>
-                    </div>
-                    <div class="results__top_right">
-                        <p class="search__details_name">
-                            Name: {{data.name}}
-                        </p>
-                        <p class="search__details_antibody">
-                            xAntibody: {% if data.xAntibody == True %}
-                                Yes
-                            {% else %}
-                                No
-                            {% endif %}
-                        </p>
-                        <div class="search__details_levels">
-                            <p class="search__details_level">
-                                Levels: 
-                            </p>
-                            {% for item in data.levels %}
-                                {{item.level}}
-                            {% endfor %}
-                        </div>
-                        <p class="search__details_type">
-                            <p>
-                                Types:
-                            </p>
-                            {% for item in data.types %}
-                                {{item.type}}
-                            {% endfor %}
-                        </p>
-                        <div class="search__details_attributes">
-                            <p>
-                                Attributes: 
-                            </p>
-                            {% for item in data.attributes %}
-                                {{item.attribute}}
-                            {% endfor %}
-                        </div>
-                        <div class="search__details_fields">
-                            <p>Fields:</p>
-                            {% for item in data.fields %}
-                                <img src="{{item.href}}" title="{{item.field}}"/>
-                            {% endfor %}
-                        </div>
-                        {% if data.releaseDate %}
-                            <p>Release Date: {{data.releaseDate}}</p>
-                        {% endif %}
-                    </div>
+            </div>
+        
+            <div class="details-content">
+                <div class="details-section">
+                    <h2>General Information</h2>
+                    {% if data.xAntibody %}
+                        <p>Antibody: Yes</p>    
+                    {% else %}
+                        <p>Antibody: No</p>
+                    {% endif %}
+                    <p>Release Date: {{ data.releaseDate|default:"--" }}</p>
                 </div>
-                <div class="results__middle">
-                    {% for item in data.descriptions %}
-                        {% if item.language == 'en_us' %}
-                            {% if item.description %}
-                                <p>Description: {{item.description}}</p>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                    <div class="search__details_skills">
-                        {% for item in data.skills %}
-                            <p>
-                                Skill Name: {{item.skill}}
-                                {% if item.description %}
-                                    <p>
-                                        Description: {{item.description}}
-                                    </p>
-                                {% endif %}
-                            </p>
+        
+                <div class="details-section">
+                    <h2>Levels</h2>
+                    <ul>
+                        {% for item in data.levels %}
+                            <li>{{item.level|default:"--"}}</li>
                         {% endfor %}
-                    </div>
+                    </ul>
                 </div>
-                <div class="results__bottom">
-                    <div class="search__details_priorEvos">
-                        {% if data.priorEvolutions %}
+        
+                <div class="details-section">
+                    <h2>Attributes</h2>
+                    <ul>
+                        {% for item in data.attributes %}
+                            <li>{{item.attribute|default:"--"}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+        
+                <div class="details-section">
+                    <h2>Fields</h2>
+                    <ul class="field-list">
+                        {% for item in data.fields %}
+                            <li>
+                                <img src="{{item.href}}" alt="{{item.field}}">
+                                {{item.field|default:"--"}}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+        
+                <div class="details-section">
+                    <h2>Descriptions</h2>
+                    <ul>
+                        {% for item in data.descriptions %}
+                            {% if item.language == 'en_us' %}
+                                <li>
+                                    <strong>Origin (Language: {{ item.language }}):</strong>
+                                    {{ item.origin }}
+                                    <p>{{item.description|default:"--"}}</p>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+        
+                <div class="details-section">
+                    <h2>Skills</h2>
+                    <ul>
+                        {% for item in data.skills %}
+                            <li>
+                                <p class="skill-name"><strong>{{item.skill}}</strong></p>
+                                <p>{{ item.description|default:"--" }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+        
+                <div class="details-section">
+                    {% if data.priorEvolutions %}
+                        <h2>Prior Evolutions</h2>
+                        <ul class="evolution-list">
                             {% for item in data.priorEvolutions%}
-                            <div class="evo__item">
                                 {% if item.id %}
-                                    <a href={% url 'main_app:search' item.id %}>
-                                        <div>{{item.digimon}}</div>
-                                        <img src={{item.image}}/>               
-                                    </a>
+                                    <li class="evolution-box">
+                                            <a href="{% url 'main_app:search' item.id %}">
+                                                {% if item.image %}
+                                                    <img src="{{ item.image }}" alt="{{ item.digimon }}">
+                                                {% else %}
+                                                    <img  src="/static/images/digimon_placeholder.jpg" alt="placeholder img"/>
+                                                {% endif %}
+                                            </a>
+                                        <p>Name: {{ item.digimon|truncatechars:30 }}</p>
+                                        {% if item.condition %}
+                                            <p>Evo Condition: {{ item.condition }}</p>
+                                        {% endif %}
+                                    </li>
                                 {% endif %}
-                            </div>
                             {% endfor %}
-                        {% endif %}
-                    </div>
-                    <div class="search__details_nextEvos">
-                        {% if data.nextEvolutions %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="details-section">
+                    {% if data.nextEvolutions %}
+                        <h2>Next Evolutions</h2>
+                        <ul class="evolution-list">
                             {% for item in data.nextEvolutions%}
-                            <div class="evo__item">
                                 {% if item.id %}
-                                    <a href={% url 'main_app:search' item.id %}>
-                                        <div>{{item.digimon}}</div>
-                                        <img src={{item.image}}/>  
-                                    </a>   
+                                    <li class="evolution-box">
+                                            <a href="{% url 'main_app:search' item.id %}">
+                                                {% if item.image %}
+                                                    <img src="{{ item.image }}" alt="{{ item.digimon }}">
+                                                {% else %}
+                                                    <img src="/static/images/digimon_placeholder.png" alt="placeholder img"/>
+                                                {% endif %}
+                                            </a>
+                                        <p>Name: {{ item.digimon|truncatechars:30 }}</p>
+                                        {% if item.condition %}
+                                            <p>Evo Condition: {{ item.condition }}</p>
+                                        {% endif %}
+                                    </li>
                                 {% endif %}
-                            </div>
                             {% endfor %}
-                        {% endif %}
-                    </div>
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
+        </div>
     {% endif %}
 
 
