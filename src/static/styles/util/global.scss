@@ -17,3 +17,21 @@
         }
     }
 }
+
+.edit-button {
+    background-color: #246d87;
+    color: #fff;
+
+    &:hover {
+        background-color: #165268;
+      }
+}
+
+.delete-button {
+    background-color: #921d2d;
+    color: #fff;
+
+    &:hover {
+        background-color: #671520;
+      }
+}

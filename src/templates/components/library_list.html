@@ -1,17 +1,22 @@
 <div class="library__list">
-    {% for digimon in digimons %}
-    <div class="library__digimon">
-        <a href={% url 'main_app:library' digimon.id %}>
+    <ul class="cards-list">
+      {% for digimon in digimons %}
+        <li class="card">
+          <a href="{% url 'main_app:library' digimon.id %}">
             {% for image in digimon.images.all %}
-                <img src="{{ image.href }}" alt="Digimon Image">
+              <img src="{{ image.href }}" alt="Digimon Image">
             {% endfor %}
-        </a>
-        <h3>Name: {{ digimon.name }}</h3>
-        <p>Release Date: {{ digimon.release_date }}</p>
-        <p>Antibody: {% if digimon.antibody %} Yes {% else %} No {% endif %}</p>
-        <p>Comments: {{digimon.comments|default:"--"}}</p>
-        {% include "components/library_edit.html" with digimon=digimon %}
-        {% include "components/library_delete.html" with digimon=digimon %}
-    </div>
-    {% endfor %}
-</div>
+          </a>
+          <h3>Name: {{ digimon.name }}</h3>
+          <p>Release Date: {{ digimon.release_date }}</p>
+          <p>Antibody: {% if digimon.antibody %} Yes {% else %} No {% endif %}</p>
+          <p>Comments: {{digimon.comments|default:"--"}}</p>
+          <div class="buttons">
+            {% include "components/library_edit.html" with digimon=digimon %}
+            {% include "components/library_delete.html" with digimon=digimon %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  

@@ -59,7 +59,7 @@
             <ul>
                 {% for skill in digimon.skills.all %}
                     <li>
-                        <strong>{{ skill.skill_name }}</strong>
+                        <p class="skill-name"><strong>{{ skill.skill_name }}</strong></p>
                         <p>{{ skill.description }}</p>
                     </li>
                 {% endfor %}
@@ -70,13 +70,13 @@
             <h2>Prior Evolutions</h2>
             <ul class="evolution-list">
                 {% for prior_evo in digimon.prior_evos.all %}
-                    <li>
+                    <li class="evolution-box">
                         <a href="{% url 'main_app:search' prior_evo.evo_id %}">
                             <img src="{{ prior_evo.evo_image }}" alt="{{ prior_evo.evo_name }}">
                         </a>
                         <p>Name: {{ prior_evo.evo_name|truncatechars:30 }}</p>
                         {% if prior_evo.evo_condition %}
-                            <p>Condition: {{ prior_evo.evo_condition }}</p>
+                            <p>Evo Condition: {{ prior_evo.evo_condition }}</p>
                         {% endif %}
                     </li>
                 {% endfor %}
@@ -87,13 +87,13 @@
             <h2>Next Evolutions</h2>
             <ul class="evolution-list">
                 {% for next_evo in digimon.next_evos.all %}
-                    <li>
+                    <li class="evolution-box">
                         <a href="{% url 'main_app:search' next_evo.evo_id %}">
                             <img src="{{ next_evo.evo_image }}" alt="{{ next_evo.evo_name }}">
                         </a>
                         <p>Name: {{ next_evo.evo_name|truncatechars:30 }}</p>
                         {% if next_evo.evo_condition %}
-                            <p>Condition: {{ next_evo.evo_condition }}</p>
+                            <p>Evo Condition: {{ next_evo.evo_condition }}</p>
                         {% endif %}
                     </li>
                 {% endfor %}
