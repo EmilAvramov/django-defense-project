@@ -1,4 +1,94 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+{% load static %}
+{% load compress %}
+
+{% block htmlhead %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'styles/pages/statics.scss' %}" rel="stylesheet">
+    {% endcompress %}
+{% endblock htmlhead %}
+
 {% block content %}
-    <div>about template</div>
+<section class="about__container">
+	<h1>About Us</h1>
+	<p>
+		Welcome to DigiWorld, your ultimate destination for all
+		things Digimon! We take pride in being your go-to source for
+		comprehensive information and exploration of the captivating Digimon
+		Universe. Our platform is designed to cater to Digimon enthusiasts of
+		all levels, providing an enriching experience filled with fascinating
+		details and lore.
+	</p>
+
+	<h2>Our Digimon Enthusiasm</h2>
+	<p>
+		At DigiWorld, we're more than just a website – we're a
+		group of passionate Digimon fans who have come together to celebrate
+		this beloved franchise. Our love for Digimon knows no bounds, from the
+		classic adventures of Digimon Adventures to the latest evolutions in
+		Digimon Survive. Our aim is to share our enthusiasm with fellow fans
+		like you.
+	</p>
+
+	<h2>Unravel the World of Digimon</h2>
+	<p>
+		Embark on a thrilling journey through the vast Digital World with our
+		comprehensive Digimon database. Discover detailed profiles of your
+		favorite Digital Monsters, complete with their unique abilities,
+		evolutions, and lore. From the iconic Agumon to the elusive Mega-level
+		Digimon, our database has it all.
+	</p>
+
+	<h2>Craft Your Digital Monster Collection</h2>
+	<p>
+		As a true Digimon Tamer, building your collection of Digital Monsters is
+		an essential part of the adventure. With DigiWorld, you
+		can keep track of the Digimon you've encountered and add them to your
+		personal library. Whether you're a completionist or simply want to keep
+		a record of your favorite Digimon, our library feature is perfect for
+		you.
+	</p>
+
+	<h2>Explore Digimon Lore</h2>
+	<p>
+		Beyond the battles and evolutions, the Digimon Universe holds a wealth
+		of lore waiting to be explored. Our platform is a treasure trove of
+		information about the origins of the Digital World, the history of
+		various Digimon species, and the interconnected stories of Digimon
+		series. Immerse yourself in the rich lore of this fantastical realm.
+	</p>
+
+	<h2>A Personalized Experience</h2>
+	<p>
+		Make DigiWorld your home for all your Digimon-related
+		musings. Use our comments feature to jot down your thoughts, theories,
+		and discoveries as you navigate through the Digital World. Treat it as
+		your personal journal, where you can reflect on your experiences and
+		share your insights with yourself.
+	</p>
+
+	<h2>A User-Friendly Adventure</h2>
+	<p>
+		We've designed our website to be user-friendly and intuitive, ensuring a
+		seamless exploration of the Digimon Universe. Navigate through our pages
+		effortlessly, access your library with ease, and find the information
+		you need without any hassle. Your Digimon adventure should be smooth and
+		enjoyable.
+	</p>
+
+	<h2>Start Your Digimon Journey Today</h2>
+	<p>
+		Join us at DigiWorld and become part of our vibrant
+		community of Digimon enthusiasts. Whether you're here to expand your
+		knowledge, reminisce about your favorite episodes, or simply immerse
+		yourself in the magic of Digimon, we've got something for everyone.
+	</p>
+
+	<p>
+		With DigiWorld, the Digital World is at your fingertips.
+		Embrace the spirit of adventure, let your curiosity guide you, and
+		embark on a journey that will fill you with wonder and excitement. Let's
+		embark on this Digimon adventure together!
+	</p>
+</section>
 {% endblock %}
