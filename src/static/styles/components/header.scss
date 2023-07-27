@@ -1,22 +1,47 @@
 header {
-    display: flex;
-    width: 100vw;
-    height: 10vh;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	width: 100vw;
+	height: 10vh;
+	justify-content: center;
+	align-items: center;
+	background-image: linear-gradient(
+		120deg,
+		#007bff 30%,
+		#ff8c00 100%
+	);
+	color: white;
 
-    .navbar {
-        width: inherit;
-        height: inherit;
-        background-color: aliceblue;
+	.navbar {
+		.navbar_list {
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
 
-        .navbar_list {
-            height: inherit;
-            width: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-        }
-    }
+			.nav_li {
+				border-radius: 1rem;
+				border: 1px solid white;
+				transition: background-color 0.2s;
+
+				.nav_link {
+					font-weight: bold;
+					color: inherit;
+					transition: color 0.2s;
+
+					&:visited {
+						color: inherit;
+					}
+
+					&:hover {
+						color: #f0f0f0;
+						background-color: rgba(
+							255,
+							255,
+							255,
+							0.2
+						);
+					}
+				}
+			}
+		}
+	}
 }
