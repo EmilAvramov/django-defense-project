@@ -21,7 +21,8 @@
     </div>
 
     <script>
-        var csrfToken = "{{ csrf_token }}";
+        const csrfToken = "{{ csrf_token }}";
+        const formHtml = `{% filter escapejs %}{% include "components/search_form.html" with form=form %}{% endfilter %}`;
     </script>
     <script src="{% static 'scripts/load_more.js' %}"></script>
 

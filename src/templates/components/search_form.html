@@ -1,0 +1,9 @@
+<form
+	class="search__form"
+	data-url="{% url 'main_app:search' %}"
+	action="{% url 'main_app:search' %}"
+	method="GET"
+>
+	{{ form }}
+	<input type="submit" value="Submit" />
+</form>

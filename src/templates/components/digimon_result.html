@@ -6,10 +6,7 @@
         <h2 class="search__heading">
             Please enter a digimon name or ID below
         </h2>
-        <form class="search__form" action="{% url 'main_app:search' %}" method="GET">
-            {{ form }}
-            <input type="submit" value="Submit">
-        </form>
+        {% include "components/search_form.html" with form=form %}
         {% for digimon in data.content%}
             {% if digimon.id %}
                 <div class="search__result_card" data-pos={{digimon.id}}>
