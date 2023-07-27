@@ -1,10 +1,12 @@
 from django.urls import path, include
-from .views import Library, Search, home, about
+from .views import Library, Search, home, about, history
 
 app_name = "main_app"
 
 urlpatterns = [
     path("", home, name="home"),
+    path("about", about, name="about"),
+    path("history", history, name="history"),
     path(
         "search/",
         include(
@@ -23,5 +25,4 @@ urlpatterns = [
             ]
         ),
     ),
-    path("about", about, name="about"),
 ]

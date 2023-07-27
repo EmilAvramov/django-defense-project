@@ -18,12 +18,12 @@
     {% endblock htmlhead %}
   </head>
   <body>
-    {% include "./core/header.html" with static=static %}
+    {% include "core/header.html" with static=static %}
 
     <main>
         {% block content %} {% endblock %} 
     </main>
 
-    {% include "./core/footer.html" %}
+    {% include "core/footer.html" %}
   </body>
 </html>

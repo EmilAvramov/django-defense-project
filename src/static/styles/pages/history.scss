@@ -1,0 +1,51 @@
+.history__container {
+	height: 80vh;
+	width: 50%;
+	margin: 3rem auto;
+	overflow: none;
+
+	h1 {
+		font-family: 'Times New Roman', serif;
+		font-size: 32px;
+		font-weight: bold;
+		margin-bottom: 10px;
+
+		&::after {
+			content: '';
+			display: block;
+			width: 100px;
+			height: 2px;
+			background-color: #000;
+			margin: 10px 0;
+		}
+	}
+
+	h2 {
+		font-size: 24px;
+		font-weight: bold;
+		margin-bottom: 8px;
+
+		&::before {
+			content: '◆ ';
+			color: #ff5722;
+			font-size: 28px;
+		}
+	}
+
+	p {
+		font-size: 18px;
+		line-height: 1.6;
+		margin-bottom: 20px;
+
+		&::first-letter {
+			font-size: 24px;
+			font-weight: bold;
+			color: #ff5722;
+		}
+	}
+
+	img {
+		width: 100%;
+		margin: 0 auto;
+	}
+}

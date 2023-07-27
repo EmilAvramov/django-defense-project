@@ -38,6 +38,14 @@ def home(request):
     return render(request, "pages/home.html", {})
 
 
+def about(request):
+    return render(request, "pages/about.html", {})
+
+
+def history(request):
+    return render(request, "pages/history.html", {})
+
+
 class Search(TemplateView):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
@@ -111,10 +119,6 @@ class Search(TemplateView):
 
     def delete(self, request):
         return HttpResponseForbidden()
-
-
-def about(request):
-    return render(request, "pages/about.html", {})
 
 
 class Library(TemplateView):
