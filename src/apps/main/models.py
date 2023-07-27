@@ -5,21 +5,33 @@ class DigimonImage(models.Model):
     href = models.URLField(verbose_name="href")
     transparent = models.BooleanField(verbose_name="Transparent")
 
+    def __str__(self):
+        return f"{self.href} (Transparent: {self.transparent})"
+
 
 class DigimonLevel(models.Model):
     level_id = models.IntegerField(verbose_name="id")
     level_name = models.CharField(verbose_name="level", max_length=100)
+
+    def __str__(self):
+        return self.level_name
 
 
 class DigimonAtribute(models.Model):
     attr_id = models.IntegerField(verbose_name="id")
     attr_name = models.CharField(verbose_name="attribute", max_length=100)
 
+    def __str__(self):
+        return self.attr_name
+
 
 class DigimonField(models.Model):
     field_id = models.IntegerField(verbose_name="id")
     field_name = models.CharField(verbose_name="field", max_length=100)
     image = models.URLField(verbose_name="image")
+
+    def __str__(self):
+        return self.field_name
 
 
 class DigimonDescription(models.Model):
@@ -34,6 +46,9 @@ class DigimonSkill(models.Model):
     translation = models.CharField(verbose_name="translation", max_length=500)
     description = models.TextField(verbose_name="description")
 
+    def __str__(self):
+        return self.skill_name
+
 
 class DigimonEvolution(models.Model):
     evo_id = models.IntegerField(verbose_name="id")
@@ -41,6 +56,9 @@ class DigimonEvolution(models.Model):
     evo_condition = models.CharField(verbose_name="condition", max_length=500)
     evo_image = models.URLField(verbose_name="image")
     evo_link = models.URLField(verbose_name="url")
+
+    def __str__(self):
+        return self.evo_name
 
 
 class Digimon(models.Model):
@@ -64,3 +82,6 @@ class Digimon(models.Model):
         DigimonEvolution, related_name="nextEvolutions"
     )
     comments = models.TextField(verbose_name="Comments")
+
+    def __str__(self):
+        return self.name

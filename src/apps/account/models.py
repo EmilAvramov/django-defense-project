@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django_defense_project.settings import AUTH_USER_MODEL
+from django.contrib.auth.models import Group
 
 from .managers import CustomUserManager
 
@@ -10,6 +11,14 @@ GENDER = (
     ("Male", "Male"),
     ("Female", "Female"),
 )
+
+
+class Role(Group):
+    description = models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        verbose_name = "Role"
+        verbose_name_plural = "Roles"
 
 
 class UserModel(AbstractUser, PermissionsMixin):
@@ -24,6 +33,8 @@ class UserModel(AbstractUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
+
+    roles = models.ManyToManyField(Role, related_name="users")
 
     class Meta:
         verbose_name = "Registered User"
