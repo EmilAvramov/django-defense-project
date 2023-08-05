@@ -45,7 +45,8 @@
 	}
 
 	img {
-		@include adjust-image();
+		display: block;
+		@include adjust-image(90%, 90%);
 		@include adjust-padding-margin($margin: 1rem auto);
 	}
 }

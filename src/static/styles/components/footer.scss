@@ -10,6 +10,6 @@ footer {
     background-color: $skyBlue;
 
     div {
-        text-align: center;
+        @include format-text($align: center, $color: $white);
     }
 }

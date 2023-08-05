@@ -2,12 +2,18 @@
 {% load static %}
 {% load compress %}
 
-{% compress css %}
-    <link type="text/x-scss" href="{% static 'styles/pages/home.scss' %}" rel="stylesheet">
-{% endcompress %}
+{% block htmlhead %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'styles/pages/home.scss' %}" rel="stylesheet">
+    {% endcompress %}
+{% endblock htmlhead %}
 
 {% block content %}
 
-    <div> Home Page </div>    
+    <div class='home__container'>
+        <div class='img__container'>
+            <img src="/static/images/home_banner.png" alt="home image"/>
+        </div>
+    </div>
 
 {% endblock %}

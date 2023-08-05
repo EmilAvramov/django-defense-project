@@ -11,13 +11,59 @@ header {
 	color: $white;
 
 	.navbar {
+		@include flex(
+			$justify-content: center,
+			$align-items: center,
+			$gap: 10rem
+		);
+		height: 100%;
+		width: 90%;
+
+		.trademark__container {
+			flex-basis: 30%;
+			@include flex(
+				$justify-content: center,
+				$align-items: center,
+				$gap: 1rem
+			);
+			height: 100%;
+
+			.image__container {
+				flex-basis: 30%;
+				height: 100%;
+				@include flex($justify-content: center, $align-items: center);
+
+				img {
+					@include adjust-image(100%, 70%);
+				}
+			}
+
+			.text__container {
+				flex-basis: 70%;
+				p {
+					@include format-text(
+						$size: 2rem,
+						$weight: 600,
+						$color: $white
+					);
+				}
+			}
+		}
+
 		.navbar_list {
-			@include flex($justify-content: space-around, $align-items: center);
+			flex-basis: 60%;
+			@include flex(
+				$justify-content: space-around,
+				$align-items: center,
+				$gap: 1rem
+			);
+			height: 100%;
 
 			.nav_li {
-				@include adjust-padding-margin(1rem 2rem);
+				@include adjust-padding-margin(0, 0);
 				@include adjust-border(1px, $white, 1rem);
 				transition: background-color 0.2s;
+				cursor: pointer;
 
 				&:hover {
 					color: $smoked;
@@ -25,8 +71,11 @@ header {
 				}
 
 				.nav_link {
+					@include adjust-padding-margin(1rem 2rem);
+					@include format-text(1.3rem);
 					@include format-link($color: white);
 					transition: color 0.2s;
+					display: block;
 				}
 			}
 		}

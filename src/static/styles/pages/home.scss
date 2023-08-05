@@ -1,0 +1,20 @@
+@import '../helpers/colors.scss';
+@import '../helpers/geometry.scss';
+@import '../helpers/layout.scss';
+@import '../helpers/text.scss';
+
+
+.home__container {
+    height: 80vh;
+    @include flex($justify-content: center, $align-items: center);
+
+    .img__container {
+        width: 100%;
+        height: 100%;
+        @include flex($justify-content: center, $align-items:center);
+
+        img {
+            @include adjust-image();
+        }
+    }
+}
