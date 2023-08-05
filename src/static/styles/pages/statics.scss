@@ -1,13 +1,16 @@
+@import '../helpers/colors.scss';
+@import '../helpers/geometry.scss';
+@import '../helpers/layout.scss';
+@import '../helpers/text.scss';
+
 .history__container, .about__container {
 	height: 80vh;
 	width: 50%;
-	margin: 3rem auto;
+	@include adjust-padding-margin($margin: 3rem auto);
 	overflow: none;
 
 	h1 {
-		font-family: 'Times New Roman', serif;
-		font-size: 32px;
-		font-weight: bold;
+		@include format-text(2rem, 600);
 		margin-bottom: 10px;
 
 		&::after {
@@ -15,37 +18,34 @@
 			display: block;
 			width: 100px;
 			height: 2px;
-			background-color: #000;
+			background-color: $black;
 			margin: 10px 0;
 		}
 	}
 
 	h2 {
-		font-size: 24px;
-		font-weight: bold;
+		@include format-text(1.5rem, 600);
 		margin-bottom: 8px;
 
 		&::before {
 			content: '◆ ';
-			color: #ff5722;
+			color: $darkOrange;
 			font-size: 28px;
 		}
 	}
 
 	p {
-		font-size: 18px;
+		@include format-text(1.2rem, $align: justify);
 		line-height: 1.6;
 		margin-bottom: 20px;
 
 		&::first-letter {
-			font-size: 24px;
-			font-weight: bold;
-			color: #ff5722;
+			@include format-text(1.5rem, 600, $color: $darkOrange);
 		}
 	}
 
 	img {
-		width: 100%;
-		margin: 0 auto;
+		@include adjust-image();
+		@include adjust-padding-margin($margin: 1rem auto);
 	}
 }

@@ -1,0 +1,21 @@
+@import './colors.scss';
+
+@mixin format-text(
+	$size: 1rem,
+	$weight: 400,
+	$align: left,
+	$color: $darkBlue
+) {
+	font-size: $size;
+	font-weight: $weight;
+	text-align: $align;
+	color: $color;
+}
+
+@mixin format-link($color: $darkBlue) {
+	text-decoration: none;
+	color: $color;
+	&:visited {
+		color: $color;
+	}
+}

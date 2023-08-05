@@ -1,10 +1,13 @@
+@import '../helpers/colors.scss';
+@import '../helpers/geometry.scss';
+@import '../helpers/layout.scss';
+@import '../helpers/text.scss';
+
 footer {
     width: 100vw;
     height: 5vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: antiquewhite;
+    @include flex($align-items: center, $justify-content: center);
+    background-color: $skyBlue;
 
     div {
         text-align: center;

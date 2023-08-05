@@ -1,46 +1,36 @@
 
+@import '../helpers/colors.scss';
+@import '../helpers/geometry.scss';
+@import '../helpers/layout.scss';
+@import '../helpers/text.scss';
+
+
 .nav_li {
-    padding: 1rem 2rem;
-    border-radius: 1rem;
-    border: 1px solid black;
+    @include adjust-border(1px, $black, 1rem);
+    @include adjust-padding-margin(1rem 2rem);
 
     .nav_link {
+        @include format-link($darkBlue);
+        @include format-text($weight: 600);
         width: 100%;
-        text-decoration: none;
-        font-weight: bold;
-
-        &:visited {
-            color: black;
-        }
-        &:hover {
-            color: red;
-        }
     }
 }
 
-.grey__button {
-    background-color: #646869;
-    color: #fff;
-
-    &:hover {
-        background-color: #3f4141;
-      }
-}
 
 .blue__button {
-    background-color: #246d87;
-    color: #fff;
+    background-color: $buttonBlue;
+    color: $white;
 
     &:hover {
-        background-color: #165268;
+        background-color: $dark;
       }
 }
 
 .delete__button {
-    background-color: #921d2d;
-    color: #fff;
+    background-color: $red;
+    color: $white;
 
     &:hover {
-        background-color: #671520;
+        background-color: $crimson;
       }
 }

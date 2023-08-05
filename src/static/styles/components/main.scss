@@ -1,8 +1,17 @@
+@import '../helpers/layout.scss';
+@import '../helpers/colors.scss';
+
 main {
-    width: 100vw;
-    height: 85vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-y: scroll;
+	@include flex($justify-content: center, $align-items: center);
+	width: 100vw;
+	height: 85vh;
+	overflow-y: scroll;
+	background: linear-gradient(
+		to right,
+		$lightBlue,
+		$white,
+		$white,
+		$white,
+		$lightBlue
+	);
 }
