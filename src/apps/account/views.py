@@ -93,8 +93,23 @@ class Register(TemplateView):
             login(request, result[1])
             return redirect("main_app:search")
         else:
-            context = {"form": self.form, "error": result[1]}
+            errors = form.errors.as_data()
+            error_messages = {}
+
+            for field, error_list in errors.items():
+                error_messages[self.get_verbose_name(field)] = []
+                for error in error_list:
+                    error_messages[self.get_verbose_name(field)].append(
+                        error.message
+                    )
+
+            error_messages["Passwords"] = ["Do not match!"]
+
+            context = {"form": self.form, "error": error_messages}
             return render(request, self.template, context)
+
+    def get_verbose_name(self, field_name):
+        return UserModel._meta.get_field(field_name).verbose_name
 
     @transaction.atomic
     def createUser(self, form):

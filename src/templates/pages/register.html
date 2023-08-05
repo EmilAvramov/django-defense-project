@@ -13,7 +13,13 @@
     <div class="auth__container">
         <form class="register__form" action="{% url 'acc_app:register' %}" method="POST">
             {% if error %}
-                {{error}}
+                <ul>
+                    {% for field, messages in error.items %}
+                        {% for message in messages %}
+                            <li>{{ field }}: {{ message }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
             {% endif %}
             {{ form }}
             <input type="submit" value="Submit">

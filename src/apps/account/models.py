@@ -8,18 +8,12 @@ from django.core.validators import RegexValidator
 
 from .managers import CustomUserManager
 
-start_with_letter = RegexValidator(
-    "^[A-Za-z]", "Your name must start with a letter!"
-)
-only_letters = RegexValidator(
-    "^[A-Za-z]+$", "Fruit name should contain only letters!"
-)
+start_with_letter = RegexValidator("^[A-Za-z]", "Must start with a letter!")
+only_letters = RegexValidator("^[A-Za-z]+$", "Must contain only letters!")
 min_eight_letters = RegexValidator(
-    "^.{8,}$", "Field should contain at least 8 symbols"
+    "^.{8,}$", "Must contain at least 8 symbols!"
 )
-min_two_letters = RegexValidator(
-    "^.{2,}$", "Field should contain at least 2 symbols"
-)
+min_two_letters = RegexValidator("^.{2,}$", "Must contain at least 2 symbols!")
 
 GENDER = (
     ("Male", "Male"),
@@ -28,7 +22,7 @@ GENDER = (
 
 
 class Role(Group):
-    description = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=255, blank=True)
 
     class Meta:
         verbose_name = "Role"
@@ -39,18 +33,24 @@ class UserModel(AbstractUser, PermissionsMixin):
     username = None
     email = models.EmailField(
         verbose_name="Email",
-        max_length=64,
+        max_length=255,
         unique=True,
         db_index=True,
         validators=[start_with_letter, min_two_letters],
     )
     first_name = models.CharField(
-        max_length=64, validators=[only_letters, min_two_letters]
+        verbose_name="First Name",
+        max_length=255,
+        validators=[only_letters, min_two_letters],
     )
     last_name = models.CharField(
-        max_length=64, validators=[only_letters, min_two_letters]
+        verbose_name="Last Name",
+        max_length=255,
+        validators=[only_letters, min_two_letters],
     )
-    password = models.CharField(max_length=64, validators=[min_eight_letters])
+    password = models.CharField(
+        verbose_name="Password", max_length=255, validators=[min_eight_letters]
+    )
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -89,9 +89,6 @@ class UserProfileModel(models.Model):
         verbose_name="Profile Picture", blank=True, null=True
     )
     digimons = models.ManyToManyField("main.Digimon", related_name="digimons")
-    bookmarks = models.ManyToManyField(
-        "main.Digimon", related_name="bookmarks"
-    )
 
     class Meta:
         verbose_name = "User Profile"

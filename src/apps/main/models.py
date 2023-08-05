@@ -42,8 +42,8 @@ class DigimonDescription(models.Model):
 
 class DigimonSkill(models.Model):
     skill_id = models.IntegerField(verbose_name="id")
-    skill_name = models.CharField(verbose_name="skill", max_length=500)
-    translation = models.CharField(verbose_name="translation", max_length=500)
+    skill_name = models.CharField(verbose_name="skill", max_length=255)
+    translation = models.CharField(verbose_name="translation", max_length=255)
     description = models.TextField(verbose_name="description")
 
     def __str__(self):
@@ -52,8 +52,8 @@ class DigimonSkill(models.Model):
 
 class DigimonEvolution(models.Model):
     evo_id = models.IntegerField(verbose_name="id")
-    evo_name = models.CharField(verbose_name="digimon", max_length=500)
-    evo_condition = models.CharField(verbose_name="condition", max_length=500)
+    evo_name = models.CharField(verbose_name="digimon", max_length=255)
+    evo_condition = models.CharField(verbose_name="condition", max_length=255)
     evo_image = models.URLField(verbose_name="image")
     evo_link = models.URLField(verbose_name="url")
 
@@ -62,7 +62,7 @@ class DigimonEvolution(models.Model):
 
 
 class Digimon(models.Model):
-    name = models.CharField(verbose_name="Name", max_length=500)
+    name = models.CharField(verbose_name="Name", max_length=255)
     antibody = models.BooleanField(verbose_name="xAntibody")
     images = models.ManyToManyField(DigimonImage, related_name="images")
     levels = models.ManyToManyField(DigimonLevel, related_name="levels")
