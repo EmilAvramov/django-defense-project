@@ -155,7 +155,9 @@ class Library(TemplateView):
                 "details_view": True,
             }
         else:
-            digimons = profile.digimons.prefetch_related("images")
+            digimons = profile.digimons.prefetch_related("images").order_by(
+                "name"
+            )
             context = {
                 "profile": profile,
                 "digimons": digimons,

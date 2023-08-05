@@ -81,4 +81,27 @@
 			}
 		}
 	}
+
+	.details__buttons_container {
+		@include flex($justify-content: space-between);
+		width: 100%;
+
+		.navLink__back, .blue__button {
+			@include adjust-padding-margin(0 1rem);
+			@include adjust-border($px: 0, $color: none, $radius: 0.5rem);
+			@include format-text(1rem, $color: white);
+			background-color: $buttonBlue;
+			color: $white;
+			text-decoration: none;
+			line-height: 3rem;
+
+			&:hover {
+				background-color: $darkBlue;
+			}
+		}
+
+		.navLink__back {
+			@include format-text(1.1rem, $color: $white)
+		}
+	}
 }

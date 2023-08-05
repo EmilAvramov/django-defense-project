@@ -63,8 +63,6 @@
 				@include adjust-border($px: 0, $color: none, $radius: 20px);
 				background-color: $skyBlue;
 				color: $white;
-				cursor: pointer;
-				transition: background-color 0.2s;
 
 				&:hover {
 					background-color: $darkBlue;

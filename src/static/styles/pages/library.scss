@@ -22,7 +22,6 @@
 			color: $smoked;
 			float: right;
 			@include format-text(2rem, 600);
-			cursor: pointer;
 		}
 
 		.close-btn:hover {
@@ -42,13 +41,13 @@
 
 .library__main {
 	.library__list {
+		@include adjust-padding-margin($margin: 0 auto);
 		height: 100%;
-		margin: 0 auto;
 		max-height: calc(100vh - 200px);
 		width: 80%;
 	
 		.cards-list {
-			@include flex($justify-content: space-between, $wrap: wrap);
+			@include flex($justify-content: left, $wrap: wrap, $gap: 1rem);
 			@include adjust-padding-margin(0);
 		}
 	
@@ -79,11 +78,8 @@
 	
 				button {
 					@include adjust-padding-margin(5px 10px, 5px);
+					@include adjust-border(0, none, 4px);
 					flex: 1;
-					border: none;
-					border-radius: 4px;
-					cursor: pointer;
-					transition: background-color 0.3s ease;
 				}
 			}
 		}
