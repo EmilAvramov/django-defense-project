@@ -4,9 +4,18 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 
 class LoginForm(forms.ModelForm):
-    password = forms.CharField(
-        label="Password", widget=forms.PasswordInput, max_length=64
-    )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__set_attributes()
+
+    password = forms.CharField(widget=forms.PasswordInput, max_length=64)
+
+    def __set_attributes(self):
+        for field in self.fields.values():
+            field.label = False
+
+        self.fields["email"].widget.attrs["placeholder"] = "Email"
+        self.fields["password"].widget.attrs["placeholder"] = "Password"
 
     class Meta:
         model = UserModel
@@ -14,18 +23,30 @@ class LoginForm(forms.ModelForm):
 
 
 class RegisterForm(forms.ModelForm):
-    first_name = forms.CharField(label="First Name", max_length=100)
-    last_name = forms.CharField(label="Last Name", max_length=100)
-    password = forms.CharField(
-        label="Password", widget=forms.PasswordInput, max_length=64
-    )
-    password2 = forms.CharField(
-        label="Repeat Password", widget=forms.PasswordInput, max_length=64
-    )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__set_attributes()
+
+    def __set_attributes(self):
+        for field in self.fields.values():
+            field.label = False
+
+        self.fields["first_name"].widget.attrs["placeholder"] = "First Name"
+        self.fields["last_name"].widget.attrs["placeholder"] = "Last Name"
+        self.fields["email"].widget.attrs["placeholder"] = "Email"
+        self.fields["password"].widget.attrs["placeholder"] = "Password"
+        self.fields["password2"].widget.attrs[
+            "placeholder"
+        ] = "Repeat Password"
+
+    first_name = forms.CharField(max_length=64)
+    last_name = forms.CharField(max_length=64)
+    password = forms.CharField(widget=forms.PasswordInput, max_length=64)
+    password2 = forms.CharField(widget=forms.PasswordInput, max_length=64)
 
     class Meta:
         model = UserModel
-        fields = ["email", "password", "first_name", "last_name"]
+        fields = ["email", "password", "password2", "first_name", "last_name"]
 
 
 class UserEditForm(forms.ModelForm):

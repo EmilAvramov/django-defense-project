@@ -1,0 +1,14 @@
+@import '../helpers/colors.scss';
+@import '../helpers/geometry.scss';
+@import '../helpers/layout.scss';
+@import '../helpers/text.scss';
+
+.auth__container {
+	height: 80vh;
+	width: 60vw;
+	@include flex($justify-content: center, $align-items: center);
+
+    .login__form, .register__form {
+        @include flex($direction: column, $justify-content: center, $align-items: center, $gap: 1rem);
+    }
+}
