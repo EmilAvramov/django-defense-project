@@ -22,8 +22,10 @@
                 </ul>
             {% endif %}
             {{ form }}
-            <input type="submit" value="Submit">
+            <input type="submit" value="Register">
             {% csrf_token %}
+            <p class="redirect__text">Already have an account?</p>
+            <p class="redirect__link"><a href="{% url 'acc_app:login' %}">Click here.</a></p>
         </form>
     </div>
 

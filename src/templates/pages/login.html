@@ -16,9 +16,11 @@
                 {{error}}
             {% endif %}
             {{ form }}
-            <input type="submit" value="Submit">
+            <input type="submit" value="Login">
             <input type="hidden" name="next" value="{{ request.GET.next }}" />
             {% csrf_token %}
+            <p class="redirect__text">Don't have an account?</p>
+            <p class="redirect__link"><a href="{% url 'acc_app:register' %}">Click here.</a></p>
         </form>
     </div>
 

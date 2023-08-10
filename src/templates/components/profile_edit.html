@@ -4,7 +4,7 @@
     <form class="profile__edit_form" action="{% url 'acc_app:edit_profile' %}" method="POST">
         {{ userForm }}
         {{ profileForm }}
-        <input type="submit" value="Submit">
+        <input type="submit" value="Edit profile">
         {% csrf_token %}
     </form>
 {% endblock %}
