@@ -1,4 +1,11 @@
 Django==4.1.7
 django_environ==0.10.0
+django-sass-processor==1.2.2
 environ==1.0
+psycopg2==2.9.6
+pytz==2023.3
+PyYAML==6.0.1
 requests==2.27.1
+sqlparse==0.4.4
+tzdata==2023.3
+urllib3==2.0.4
