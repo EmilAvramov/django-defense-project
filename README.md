@@ -35,7 +35,7 @@ This also allows referencing and seeing prior and future evolutions easily and a
    pip install -r requirements.txt
    ```
 4. Create an .env file in src/django_defense_project and add the necessary PostgreSQL details according to the 6 parameter names in settings.py.
-   This allows the app to connect to a local databse. Format for .env is below:
+   This allows the app to connect to a local database. Format for .env is below:
    ```
    SECRET_KEY=(can be anything)
    DB_NAME=
@@ -67,4 +67,4 @@ This also allows referencing and seeing prior and future evolutions easily and a
 
 8. Access the admin panel at http://localhost:8000/admin/ and use the superuser credentials to log in.
 
-9. Begin managing the pizza menu and ingredients via the admin panel or web.
+9. Begin browsing/using the app or managing data/users in the admin panel.
