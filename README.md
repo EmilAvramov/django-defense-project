@@ -48,6 +48,7 @@ This also allows referencing and seeing prior and future evolutions easily and a
 5. Apply the database migrations:
 
    ```
+   cd src
    python manage.py makemigrations
    python manage.py migrate
    ```
